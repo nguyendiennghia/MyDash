@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatInputModule} from '@angular/material/input'
 
 @Component({
   selector: 'app-login',
@@ -11,6 +10,10 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  logIn(): void {
+    
   }
 
 }

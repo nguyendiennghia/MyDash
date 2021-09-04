@@ -1,1 +1,30 @@
-<p>login works!</p>
+<div fxLayout="row" fxLayoutAlign="center center">
+<mat-card flex>
+    <mat-card-title color="primary">Login</mat-card-title>
+    <mat-card-content align="center">
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>
+                    <mat-icon>person</mat-icon>User
+                </mat-label>
+                <input matInput placeholder="Ex. user1808" value="" >
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>
+                    <mat-icon>vpn_key</mat-icon>Password
+                </mat-label>
+                <input matInput type="password">
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-raised-button color="primary" (click)="">
+            <mat-icon>login</mat-icon>Login
+        </button>
+    </mat-card-actions>
+</mat-card>
+</div>
+
+

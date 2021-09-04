@@ -9,6 +9,8 @@ export class AppComponent {
   title = 'MyDash';
   private authenticated: boolean = true;
 
+  constructor() { }
+
   isAuthenticated(): boolean {
     return this.authenticated;
   }
