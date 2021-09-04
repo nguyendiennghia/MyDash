@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'MyDash';
+  private authenticated: boolean = true;
+
+  isAuthenticated(): boolean {
+    return this.authenticated;
+  }
+
+  logout(): void {
+    this.authenticated = !this.authenticated;
+  }
 }
