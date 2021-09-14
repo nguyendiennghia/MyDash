@@ -12,7 +12,8 @@ import { ConfigComponent } from './config/config.component';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { MaterialComponent } from './material.component'
-import { FlexLayoutModule } from '@angular/flex-layout'
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { CdkComponent } from './cdk.component'
 
 @NgModule({
   declarations: [
@@ -22,17 +23,19 @@ import { FlexLayoutModule } from '@angular/flex-layout'
     ContactComponent,
     ConfigComponent,
     AuthComponent,
-    LoginComponent
-
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialComponent,
+    CdkComponent,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

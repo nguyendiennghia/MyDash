@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SpinnerService } from 'src/app/spinner.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,12 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
   }
 
-  logIn(): void {
+  async logIn(): Promise<void> {
+    // spinner
+    this.auth.authenticate()
     
   }
 
