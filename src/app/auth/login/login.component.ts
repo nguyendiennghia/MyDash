@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SpinnerService } from 'src/app/spinner.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -9,15 +9,30 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private auth: AuthService) { }
+  form: FormGroup = this.createFormGroup()
+
+  constructor(private fb: FormBuilder, private auth: AuthService) { }
 
   ngOnInit(): void {
   }
 
-  async logIn(): Promise<void> {
+  async onSubmit(): Promise<void> {
     // spinner
-    this.auth.authenticate()
-    
+    let user: string = this.form.get('user')?.value;
+    let pwd: string = this.form.get('pwd')?.value;
+
+    let result = await this.auth.login(user, pwd);
+    debugger;
+    if (result.authenticated) {
+
+    }
+  }
+
+  private createFormGroup(): FormGroup {
+    return this.fb.group({
+      user: ['', Validators.email],
+      pwd: ['', Validators.required]
+    })
   }
 
 }

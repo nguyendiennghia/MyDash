@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { MaterialComponent } from './material.component'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CdkComponent } from './cdk.component'
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FakeHttpInterceptor } from './fake/backend';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,9 @@ import { CdkComponent } from './cdk.component'
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialComponent,
@@ -34,7 +41,12 @@ import { CdkComponent } from './cdk.component'
     FlexLayoutModule
   ],
   providers: [
-    
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: FakeHttpInterceptor,
+      multi: true
+    },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

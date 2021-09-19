@@ -1,3 +1,5 @@
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
 <div fxLayout="row" fxLayoutAlign="center center">
 <mat-card flex>
     <mat-card-title color="primary">Login</mat-card-title>
@@ -7,7 +9,7 @@
                 <mat-label>
                     <mat-icon>person</mat-icon>User
                 </mat-label>
-                <input matInput placeholder="Ex. user1808" value="" >
+                <input matInput placeholder="Ex. user1808" formControlName="user" required>
             </mat-form-field>
         </div>
         <div>
@@ -15,16 +17,18 @@
                 <mat-label>
                     <mat-icon>vpn_key</mat-icon>Password
                 </mat-label>
-                <input matInput type="password">
+                <input matInput type="password" formControlName="pwd" required>
             </mat-form-field>
         </div>
     </mat-card-content>
     <mat-card-actions align="end">
-        <button mat-raised-button color="primary" (click)="logIn()">
+        <button mat-raised-button color="primary">
             <mat-icon>login</mat-icon>Login
         </button>
     </mat-card-actions>
 </mat-card>
 </div>
+</form>
+
 
 
