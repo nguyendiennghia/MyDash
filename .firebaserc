@@ -1,4 +1,7 @@
 {
+  "projects": {
+    "MyDash": "mydash-89788"
+  },
   "targets": {
     "mydash-89788": {
       "hosting": {

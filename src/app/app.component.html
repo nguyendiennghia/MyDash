@@ -12,11 +12,11 @@
     <button mat-icon-button routerLink="/config" *ngIf="isAuthenticated()">
       <mat-icon>settings</mat-icon>
     </button>
-    <button *ngIf="!isAuthenticated()" mat-icon-button routerLink="/login">
-      <mat-icon>login</mat-icon>
-    </button>
     <button mat-icon-button routerLink="/" *ngIf="isAuthenticated()" (click)="logout()">
       <mat-icon>logout</mat-icon>
+    </button>
+    <button *ngIf="!isAuthenticated()" mat-icon-button routerLink="/login">
+      Login<mat-icon>login</mat-icon>
     </button>
   </mat-toolbar>
 

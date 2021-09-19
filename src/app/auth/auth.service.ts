@@ -6,15 +6,12 @@ import { map, catchError, finalize } from 'rxjs/operators';
 import { SpinnerService } from '../spinner.service';
 import {HTTP_URL, COOKIE_KEY} from '../common/backend'
 import { CookieService } from 'ngx-cookie-service';
+import { User } from '../common/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  // TODO: Portal url from configuration service
-  //private static readonly LOGIN_URL: string = '/url/api/auth/login'
-  //private static readonly LOGOUT_URL: string = '/url/api/auth/logout'
   
   constructor(private spinner: SpinnerService, private http: HttpClient, private cookie: CookieService) { }
 
@@ -26,7 +23,6 @@ export class AuthService {
        .pipe(
           //map(val => new Number(1)),
           catchError((err, caught) => {
-            debugger; 
             return throwError(err) 
           }),
           finalize(() => this.spinner.spin$.next(false))
@@ -34,11 +30,30 @@ export class AuthService {
        .toPromise()
   }
 
-  async logout(): Promise<void> {
-    this.http.get<Number>(HTTP_URL.Logout).toPromise()
+  async logout(): Promise<any> {
+    this.spinner.spin$.next(true)
+
+    console.log('logging out...')
+    return this.http.get(HTTP_URL.Logout)
+      .pipe(
+        finalize(() => this.spinner.spin$.next(false))
+      )
+      .toPromise()
   }
 
   get authenticated(): boolean {
-    return !!+this.cookie.get(COOKIE_KEY.Authenticated);
+    // let userStr = this.cookie.get(COOKIE_KEY.User)
+    // if (!userStr) return false
+
+    // let user = <User>JSON.parse(userStr)
+    // return user != null
+    return this.user != null
+  }
+
+  get user(): any {
+    let userStr = this.cookie.get(COOKIE_KEY.User)
+    if (!userStr) return null
+
+    return <User>JSON.parse(userStr)
   }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from './dashboard.service';
+import { Tile } from './widgets/tile';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  tiles: Tile[] = [];
+  constructor(private service: DashboardService) { }
 
   ngOnInit(): void {
+    (async() => {
+      this.tiles = await this.getTiles()
+    })();
+  }
+
+  private async getTiles(): Promise<Tile[]> {
+    return this.service.getTiles()
   }
 
 }

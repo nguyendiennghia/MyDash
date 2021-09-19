@@ -18,6 +18,11 @@ import { CdkComponent } from './cdk.component'
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FakeHttpInterceptor } from './fake/backend';
 import { CookieService } from 'ngx-cookie-service';
+import { TodosComponent } from './dashboard/widgets/todos/todos.component';
+import { UrlsComponent } from './dashboard/widgets/urls/urls.component';
+import { RssComponent } from './dashboard/widgets/rss/rss.component';
+import { SchedulersComponent } from './dashboard/widgets/schedulers/schedulers.component';
+import { GraphsComponent } from './dashboard/widgets/graphs/graphs.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +33,11 @@ import { CookieService } from 'ngx-cookie-service';
     ConfigComponent,
     AuthComponent,
     LoginComponent,
+    TodosComponent,
+    UrlsComponent,
+    RssComponent,
+    SchedulersComponent,
+    GraphsComponent
   ],
   imports: [
     BrowserModule,

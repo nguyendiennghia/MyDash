@@ -35,12 +35,10 @@ export class SpinnerService {
   }
 
   private showSpinner(): void {
-    console.log('Start spinning...')
     this.spinnerRef.attach(new ComponentPortal(MatSpinner))
   }
 
   private hideSpinner() : void {
-    console.log('Stop spinning...')
     this.spinnerRef.detach()
   }
 }
