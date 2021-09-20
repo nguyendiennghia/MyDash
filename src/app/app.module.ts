@@ -23,6 +23,7 @@ import { UrlsComponent } from './dashboard/widgets/urls/urls.component';
 import { RssComponent } from './dashboard/widgets/rss/rss.component';
 import { SchedulersComponent } from './dashboard/widgets/schedulers/schedulers.component';
 import { GraphsComponent } from './dashboard/widgets/graphs/graphs.component';
+import { WidgetContainerComponent } from './dashboard/widgets/widget-container/widget-container.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { GraphsComponent } from './dashboard/widgets/graphs/graphs.component';
     UrlsComponent,
     RssComponent,
     SchedulersComponent,
-    GraphsComponent
+    GraphsComponent,
+    WidgetContainerComponent
   ],
   imports: [
     BrowserModule,

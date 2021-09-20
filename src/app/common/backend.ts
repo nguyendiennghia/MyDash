@@ -1,7 +1,9 @@
 export const HTTP_URL = {
     Login: '/api/auth/login',
     Logout: '/api/auth/logout',
-    Tiles: '/api/layout/tiles'
+    Tiles: '/api/layout/tiles',
+    DefaultTiles: '/api/layout/defaulTiles',
+    Widget: '/api/layout/widget'
 }
 
 export const COOKIE_KEY = {

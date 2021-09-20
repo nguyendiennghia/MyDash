@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Widget } from '../widget';
 
 @Component({
   selector: 'app-urls',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UrlsComponent implements OnInit {
 
+  @Input() items: Widget[] = []
+  
   constructor() { }
 
   ngOnInit(): void {

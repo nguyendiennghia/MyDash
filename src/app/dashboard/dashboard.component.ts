@@ -1,3 +1,4 @@
+import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { Tile } from './widgets/tile';
@@ -22,4 +23,7 @@ export class DashboardComponent implements OnInit {
     return this.service.getTiles()
   }
 
+  async getTile(tile: Tile): Promise<any> {
+
+  }
 }
