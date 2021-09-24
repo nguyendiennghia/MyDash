@@ -8,5 +8,17 @@ export enum WidgetType {
 }
 export class Widget {
     type!: WidgetType
-    html!: string
+    data!: string
 }
+
+class TodoItem {
+    name!: string;
+    details!: string;
+}
+export class TodoWidget extends Widget {
+    todo?: TodoItem[];
+    ongoing?: TodoItem[];
+    done?: TodoItem[];
+}
+
+

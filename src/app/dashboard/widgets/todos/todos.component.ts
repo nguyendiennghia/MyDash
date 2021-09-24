@@ -1,31 +1,43 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Widget } from '../widget';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { TodoWidget, Widget } from '../widget';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { DashboardService, getTodos } from '../../dashboard.service';
 
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.sass']
 })
-export class TodosComponent implements OnInit {
+export class TodosComponent implements OnInit, OnChanges {
 
-  todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home'
-  ];
+  // todo = [
+  //   'Get to work',
+  //   'Pick up groceries'
+  // ]
 
-  done = [
-    'Get up',
-    'Brush teeth',
-    'Check e-mail'
-  ];
+  // inProgress = [
+  //   'Go home',
+  //   'Get up'
+  // ]
 
-  @Input() items: Widget[] = []
+  // done = [
+  //   'Brush teeth',
+  //   'Check e-mail'
+  // ]
 
-  constructor() { }
+  @Input() widget!: Widget
+  items: TodoWidget[] = [];
+
+  constructor(private service: DashboardService) { }
 
   ngOnInit(): void {
+  }
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    this.items = await this.service.cast<TodoWidget>(this.widget)
+    // TODO: Support many
+    
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -37,5 +49,7 @@ export class TodosComponent implements OnInit {
                         event.previousIndex,
                         event.currentIndex);
     }
+
+    // TODO: Save down updates
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { DashboardService } from '../../dashboard.service';
-import { Widget, WidgetType } from '../widget';
+import { TodoWidget, Widget, WidgetType } from '../widget';
 
 @Component({
   selector: 'app-widget-container',
@@ -13,7 +14,7 @@ export class WidgetContainerComponent implements OnInit {
   @Input() name = ''
   @Input() desc = ''
   @Input() groupId: number | string = -1
-  widgets?: Widget[];
+  widgets?: Widget[]
   widgetTypes = WidgetType;
 
   constructor(private service: DashboardService) { }
