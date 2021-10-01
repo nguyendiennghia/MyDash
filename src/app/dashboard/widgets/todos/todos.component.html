@@ -1,27 +1,47 @@
+<!-- TODO: Support many -->
+
+<div *ngFor="let item of items">
+
 <div class="example-container">
-    <h2>To do</h2>
-  
-    <div
-      cdkDropList
-      #todoList="cdkDropList"
-      [cdkDropListData]="todo"
-      [cdkDropListConnectedTo]="[doneList]"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+  <header>To do</header>
+  <div
+    cdkDropList
+    #todoList="cdkDropList"
+    [cdkDropListData]="item.todo"
+    [cdkDropListConnectedTo]="[inProgressList, doneList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let itm of item.todo" cdkDrag>
+        {{itm.name}}
     </div>
   </div>
+</div>
   
-  <div class="example-container">
-    <h2>Done</h2>
-  
-    <div
-      cdkDropList
-      #doneList="cdkDropList"
-      [cdkDropListData]="done"
-      [cdkDropListConnectedTo]="[todoList]"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
-    </div>
+<div class="example-container">
+  <header>In progress</header>
+  <div
+    cdkDropList
+    #inProgressList="cdkDropList"
+    [cdkDropListData]="item.ongoing"
+    [cdkDropListConnectedTo]="[todoList, doneList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let itm of item.ongoing" cdkDrag>{{itm.name}}</div>
   </div>
+</div>
+
+
+<div class="example-container">
+  <header>Done</header>
+  <div
+    cdkDropList
+    #doneList="cdkDropList"
+    [cdkDropListData]="item.done"
+    [cdkDropListConnectedTo]="[inProgressList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+  <div class="example-box" *ngFor="let itm of item.done" cdkDrag>{{itm.name}}</div>
+  </div>
+</div>
+
+</div>

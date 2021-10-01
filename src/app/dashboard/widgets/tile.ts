@@ -4,5 +4,5 @@ export class Tile {
     rows!: number
     name!: string
     desc!: string
-    content!: string | number
+    content!: string | number // id
 }

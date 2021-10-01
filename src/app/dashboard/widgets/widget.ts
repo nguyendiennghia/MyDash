@@ -1,3 +1,5 @@
+import { Guid } from 'guid-typescript'
+
 export enum WidgetType {
     Raw,
     Todo,
@@ -9,16 +11,17 @@ export enum WidgetType {
 export class Widget {
     type!: WidgetType
     data!: string
+    id!: Guid
 }
 
-class TodoItem {
+export class TodoItem {
     name!: string;
     details!: string;
 }
 export class TodoWidget extends Widget {
-    todo?: TodoItem[];
-    ongoing?: TodoItem[];
-    done?: TodoItem[];
+    todo: TodoItem[] = [];
+    ongoing: TodoItem[] = [];
+    done: TodoItem[] = [];
 }
 
 

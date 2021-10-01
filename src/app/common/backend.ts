@@ -3,10 +3,13 @@ export const HTTP_URL = {
     Logout: '/api/auth/logout',
     Tiles: '/api/layout/tiles',
     DefaultTiles: '/api/layout/defaulTiles',
-    Widget: '/api/layout/widget'
+    Widgets: '/api/layout/widgets',
+    Widget: '/api/layout/widget',
 }
 
 export const COOKIE_KEY = {
-    User: 'mydash_user'
+    User: 'mydash_user',
+    Tiles: 'mydash_tiles',
+    Widgets: 'mydash_widgets'
 }
 

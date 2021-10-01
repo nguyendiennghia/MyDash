@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Guid } from 'guid-typescript';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { DashboardService } from '../../dashboard.service';
 import { TodoWidget, Widget, WidgetType } from '../widget';
@@ -14,14 +15,20 @@ export class WidgetContainerComponent implements OnInit {
   @Input() name = ''
   @Input() desc = ''
   @Input() groupId: number | string = -1
-  widgets?: Widget[]
+  widgets: Widget[] = []
   widgetTypes = WidgetType;
 
   constructor(private service: DashboardService) { }
 
   ngOnInit(): void {
     (async () => await this.service.getWidgets(this.groupId)
-      .then(widgets => this.widgets = widgets )
+      .then(widgets => this.widgets = widgets)
     )()
+  }
+
+  async handleWidget(widget: Widget) {
+    //let index = this.widgets.findIndex(w => w.id == widget.id)
+    //await this.service.save(this.groupId, this.widgets.splice(index, 1, widget))
+    await this.service.save(this.groupId, this.widgets)
   }
 }

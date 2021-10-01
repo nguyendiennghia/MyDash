@@ -10,25 +10,29 @@
                 <button mat-icon-button aria-label="icon-button with heart icon" *ngIf="desc" [matTooltip]="desc" #tooltip="matTooltip">
                     <mat-icon>info</mat-icon>
                 </button>
+                <button mat-icon-button aria-label="icon-button with heart icon">
+                    <mat-icon>settings</mat-icon>
+                </button>
                 <button mat-icon-button aria-label="icon-button with delete icon">
                     <mat-icon>delete</mat-icon>
                 </button>
             </mat-toolbar-row>
         </mat-toolbar>
 
-        <div *ngIf="!widgets" class="loading">
+        <div *ngIf="!widgets || !widgets.length" class="loading">
             Loading..<mat-spinner></mat-spinner>
         </div>
 
         <div *ngIf="widgets">
-            <!-- <h1>{{widgets.length}}</h1> -->
             <span *ngFor="let widget of widgets" [ngSwitch]="widget.type">
-                <app-todos *ngSwitchCase="widgetTypes.Todo"></app-todos>
+                <span *ngSwitchCase="widgetTypes.Todo">
+                    <app-todos [widget]="widget" (widgetEvent)="handleWidget($event)"></app-todos>
+                </span>
                 <app-urls *ngSwitchCase="widgetTypes.Url"></app-urls>
                 <app-rss *ngSwitchCase="widgetTypes.Rss"></app-rss>
                 <app-schedulers *ngSwitchCase="widgetTypes.Scheduler"></app-schedulers>
                 <app-graphs *ngSwitchCase="widgetTypes.Graph"></app-graphs>
-                <pre *ngSwitchDefault>{{widget.html}}</pre>
+                <pre *ngSwitchDefault>{{widget.data}}</pre>
             </span>
         </div>
 
