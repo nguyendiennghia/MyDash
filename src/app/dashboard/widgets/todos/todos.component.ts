@@ -60,8 +60,8 @@ export class TodosComponent implements OnInit, OnChanges {
 
   async delete(items: TodoItem[], item: TodoItem) {
     let index = items.indexOf(item)
-    items.splice(index, 1)
-    
+    items = items.splice(index, 1)
+    await this.submit(this.items)
   }
 
   private async submit(todos: TodoWidget[]) {
