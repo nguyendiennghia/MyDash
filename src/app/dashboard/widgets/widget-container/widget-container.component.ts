@@ -15,7 +15,7 @@ export class WidgetContainerComponent implements OnInit {
   @Input() name = ''
   @Input() desc = ''
   @Input() groupId: number | string = -1
-  widgets: Widget[] = []
+  widgets!: Widget[]
   widgetTypes = WidgetType;
 
   constructor(private service: DashboardService) { }
@@ -29,6 +29,8 @@ export class WidgetContainerComponent implements OnInit {
   async handleWidget(widget: Widget) {
     //let index = this.widgets.findIndex(w => w.id == widget.id)
     //await this.service.save(this.groupId, this.widgets.splice(index, 1, widget))
+    //console.log(JSON.stringify(widget))
+    //console.log(this.widgets.indexOf(widget))
     await this.service.save(this.groupId, this.widgets)
   }
 }

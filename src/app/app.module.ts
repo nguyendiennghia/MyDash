@@ -24,6 +24,7 @@ import { RssComponent } from './dashboard/widgets/rss/rss.component';
 import { SchedulersComponent } from './dashboard/widgets/schedulers/schedulers.component';
 import { GraphsComponent } from './dashboard/widgets/graphs/graphs.component';
 import { WidgetContainerComponent } from './dashboard/widgets/widget-container/widget-container.component';
+import { TodoAddComponent } from './dashboard/widgets/todo-add/todo-add.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { WidgetContainerComponent } from './dashboard/widgets/widget-container/w
     RssComponent,
     SchedulersComponent,
     GraphsComponent,
-    WidgetContainerComponent
+    WidgetContainerComponent,
+    TodoAddComponent
   ],
   imports: [
     BrowserModule,

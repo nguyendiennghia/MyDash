@@ -2,10 +2,13 @@ $padding: 10px 10px
 $border: solid 1px #ccc
 $border-radius: 4px
 
+.spacer
+  flex: 1 1 auto
+
 .example-container
-  width: 140px
+  width: 30%
   max-width: 100%
-  margin: 0 25px 25px 0
+  margin: 0 5% 25px 0
   display: inline-block
   vertical-align: top
   & header
@@ -14,12 +17,19 @@ $border-radius: 4px
     font-weight: 500
     padding: $padding
 
+.example-container:last-child
+  margin-right: 0
+
 .example-list
   border: $border
   background: white
   border-radius: $border-radius
   overflow: hidden
   display: block
+  span, mat-icon
+    visibility: none
+    opacity: 0
+    transition: visibility 0s, opacity 0.5s linear
 
 .example-box
   padding: $padding
@@ -33,7 +43,10 @@ $border-radius: 4px
   cursor: move
   background: white
   font-size: 14px
-
+  &:hover
+    span, mat-icon
+      visibility: visible
+      opacity: 1
 
 .cdk-drag-preview
   box-sizing: border-box

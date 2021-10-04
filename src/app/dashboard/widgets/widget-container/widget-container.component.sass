@@ -9,6 +9,14 @@ mat-card
     width: calc(100% - 10px)
     height: calc(100% - 10px)
     padding: 0
+    mat-toolbar-row button
+        opacity: 0
+        visibility: none
+        transition: visibility 0s, opacity 0.5s linear
+mat-card:hover
+    mat-toolbar-row button
+        opacity: 1
+        visibility: visible
     
 mat-card-content
     height: 100%
@@ -25,3 +33,6 @@ mat-card-content
     justify-content: center
     width: 100%
     height: 100%
+
+mat-toolbar
+    filter: brightness(0.85)

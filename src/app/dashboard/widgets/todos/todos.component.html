@@ -1,5 +1,4 @@
 <!-- TODO: Support many -->
-
 <div *ngFor="let item of items">
 
 <div class="example-container">
@@ -12,8 +11,14 @@
     class="example-list"
     (cdkDropListDropped)="drop($event)">
     <div class="example-box" *ngFor="let itm of item.todo" cdkDrag>
-        {{itm.name}}
+        <section>{{itm.name}}</section>
+        <span class="spacer"></span>
+        <!-- <mat-icon color="warn" (click)="edit(itm)">edit</mat-icon> -->
+        <mat-icon color="warn" (click)="delete(item.todo, itm)">cancel</mat-icon>
     </div>
+  </div>
+  <div class="example-list">
+    <app-todo-add (addEvent)="addTodo($event)"></app-todo-add>
   </div>
 </div>
   
@@ -26,10 +31,15 @@
     [cdkDropListConnectedTo]="[todoList, doneList]"
     class="example-list"
     (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let itm of item.ongoing" cdkDrag>{{itm.name}}</div>
+    <div class="example-box" *ngFor="let itm of item.ongoing" cdkDrag>
+      {{itm.name}}
+      <span class="spacer"></span><mat-icon color="warn" (click)="delete(item.ongoing, itm)">cancel</mat-icon>
+    </div>
+  </div>
+  <div class="example-list">
+    <app-todo-add (addEvent)="addOngoing($event)"></app-todo-add>
   </div>
 </div>
-
 
 <div class="example-container">
   <header>Done</header>
@@ -40,7 +50,13 @@
     [cdkDropListConnectedTo]="[inProgressList]"
     class="example-list"
     (cdkDropListDropped)="drop($event)">
-  <div class="example-box" *ngFor="let itm of item.done" cdkDrag>{{itm.name}}</div>
+    <div class="example-box" *ngFor="let itm of item.done" cdkDrag>
+      {{itm.name}}
+      <span class="spacer"></span><mat-icon color="warn" (click)="delete(item.done, itm)">cancel</mat-icon>
+    </div>
+  </div>
+  <div class="example-list">
+    <app-todo-add (addEvent)="addDone($event)"></app-todo-add>
   </div>
 </div>
 

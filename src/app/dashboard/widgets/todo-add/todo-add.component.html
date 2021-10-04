@@ -1,0 +1,13 @@
+<button *ngIf="!editing" mat-icon-button color="primary" (click)="toggle()">
+    <mat-icon>add</mat-icon>
+</button>
+<div *ngIf="editing" class="edit">
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Add description</mat-label>
+        <input matInput [(ngModel)]="todoName">
+        <button mat-raised-button color="primary" (click)="add()" [disabled]="!todoName">Add</button>
+        <button mat-icon-button (click)="toggle()" color="warn">
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </mat-form-field>
+</div>

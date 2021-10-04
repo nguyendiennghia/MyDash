@@ -3,6 +3,7 @@ import { TodoItem, TodoWidget, Widget } from '../widget';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { DashboardService, getTodos } from '../../dashboard.service';
+import { Guid } from 'guid-typescript';
 
 @Component({
   selector: 'app-todos',
@@ -10,21 +11,6 @@ import { DashboardService, getTodos } from '../../dashboard.service';
   styleUrls: ['./todos.component.sass']
 })
 export class TodosComponent implements OnInit, OnChanges {
-
-  // todo = [
-  //   'Get to work',
-  //   'Pick up groceries'
-  // ]
-
-  // inProgress = [
-  //   'Go home',
-  //   'Get up'
-  // ]
-
-  // done = [
-  //   'Brush teeth',
-  //   'Check e-mail'
-  // ]
 
   @Input() widget!: Widget
   @Output() widgetEvent: EventEmitter<Widget> = new EventEmitter<Widget>()
@@ -36,7 +22,7 @@ export class TodosComponent implements OnInit, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    this.items = await this.service.cast<TodoWidget>(this.widget)
+    this.items = (await this.service.cast<TodoWidget>(this.widget))
     // TODO: Support many
 
   }
@@ -54,5 +40,35 @@ export class TodosComponent implements OnInit, OnChanges {
     // TODO: Save down updates
     let widget = await this.service.edit(this.widget, this.items)
     this.widgetEvent.emit(widget)
+  }
+
+  async addTodo(item: TodoItem) {
+    this.items[0].todo.push(item)
+    debugger;
+    this.widgetEvent.emit(this.items[0])
+
+  }
+  async addOngoing(item: TodoItem) {
+    this.items[0].ongoing.push(item)
+    this.widgetEvent.emit(this.items[0])
+    //let index = this.widgets.findIndex(w => w.id == widget.id)
+    //await this.service.save(this.groupId, this.widgets.splice(index, 1, widget))
+    //await this.service.save(this.groupId, this.widgets)
+  }
+  async addDone(item: TodoItem) {
+    this.items[0].done.push(item)
+    this.widgetEvent.emit(this.items[0])
+    //let index = this.widgets.findIndex(w => w.id == widget.id)
+    //await this.service.save(this.groupId, this.widgets.splice(index, 1, widget))
+    //await this.service.save(this.groupId, this.widgets)
+  }
+
+  async delete(items: TodoItem[], item: TodoItem) {
+    let index = items.indexOf(item)
+    items.splice(index, 1)
+  }
+
+  async edit(item: TodoItem) {
+    
   }
 }

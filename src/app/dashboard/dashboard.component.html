@@ -11,7 +11,7 @@
     </mat-toolbar-row>
 </mat-toolbar>
 <p></p>
-<mat-grid-list cols="4" rowHeight="1:1">
+<mat-grid-list cols="5" rowHeight="1:1">
     <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
         <app-widget-container [color]="tile.color" [name]="tile.name" [desc]="tile.desc" [groupId]="tile.content"></app-widget-container>
         <!--<mat-card [style.background]="tile.color">
@@ -37,16 +37,3 @@
         </mat-card>-->
     </mat-grid-tile>
 </mat-grid-list>
-
-
-
-<h2>Test single components</h2>
-<app-todos></app-todos>
-
-<app-urls></app-urls>
-
-<app-rss></app-rss>
-
-<app-schedulers></app-schedulers>
-
-<app-graphs></app-graphs>

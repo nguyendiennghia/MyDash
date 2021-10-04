@@ -39,6 +39,7 @@ export class DashboardService {
 
   async edit<TWidget extends Widget>(widget: Widget, items: TWidget[]): Promise<Widget> {
     widget.data = JSON.stringify(items)
+    
     return of(widget).toPromise()
   }
 
