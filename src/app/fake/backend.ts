@@ -47,13 +47,13 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         }
 
         let defaultTiles = [
-            <Tile> { color: 'orange', cols: 1, rows: 1, content: 4, name: 'Widget Schedulers' },
-            <Tile> { color: '#ddbdf1', cols: 3, rows: 1, content: 5, name: 'Widget Graphs' },
-            <Tile> { color: 'lightgreen', cols: 1, rows: 2, content: 2, name: 'Widget Urls' },
-            <Tile> { color: 'lightblue', cols: 3, rows: 2, content: this.widgetID1, name: 'Widget ToDo', desc: 'TODO list items' },
-            <Tile> { color: 'lightpink', cols: 1, rows: 1, content: 0, name: 'Widget Raw' },
+            <Tile> { color: 'orange', cols: 1, rows: 1, content: 4, name: 'Scheduler' },
+            <Tile> { color: '#ddbdf1', cols: 3, rows: 1, content: 5, name: 'Graph' },
+            <Tile> { color: 'lightgreen', cols: 1, rows: 2, content: 2, name: 'Url' },
+            <Tile> { color: 'lightblue', cols: 3, rows: 2, content: this.widgetID1, name: 'ToDo', desc: 'TODO list items' },
+            <Tile> { color: 'lightpink', cols: 1, rows: 1, content: 0, name: 'Raw' },
             
-            <Tile> { color: 'yellow', cols: 2, rows: 1, content: 3, name: 'Widget RSS' },
+            <Tile> { color: 'yellow', cols: 2, rows: 1, content: 3, name: 'RSS' },
         ]
         if (req.method === 'GET' && req.url.includes(HTTP_URL.DefaultTiles)) {
             return of(new HttpResponse({ status: 200, body: defaultTiles }))
@@ -101,17 +101,26 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         }
 
         if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID1}`)) {
-            debugger;
-            let widgets = <Widget[]> req.body
-            // TODO
+            let widgets = (<Widget[]> req.body) // Todo
+                .concat(this.getWidgets(WidgetType.Raw)).concat(this.getWidgets(WidgetType.Url))
+                .concat(this.getWidgets(WidgetType.Rss)).concat(this.getWidgets(WidgetType.Scheduler))
+                .concat(this.getWidgets(WidgetType.Graph))
+            
             this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
-            //console.log(JSON.stringify(widgets))
 
             return of(new HttpResponse({ status: 200, body: widgets }))
-            //     .pipe(
-            //         delay( Math.floor(Math.random() * 3000) )
+                 .pipe(
+                     delay( Math.floor(Math.random() * 3000) )
             //         //finalize(() => this.cookie.set(COOKIE_KEY.User, '{}'))
-            //     )
+                 )
+        }
+
+        if (req.method === 'PUT' && req.url.endsWith(`${HTTP_URL.Widgets}/reset`)) {
+            this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
+            return of(new HttpResponse({ status: 200, body: defaultWidgets }))
+                 .pipe(
+                     delay( Math.floor(Math.random() * 3000) )
+                 )
         }
 
         // TODO: More
@@ -133,6 +142,11 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         if (type == undefined) return widgets
         return widgets.filter(w => w.type == type)
         //return type == undefined ? widgets : widgets.filter(w => w.type == type)
+    }
+
+    resetToDefault(): Widget[] {
+        this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
+        return defaultWidgets
     }
 }
 

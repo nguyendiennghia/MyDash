@@ -53,6 +53,10 @@ export class DashboardService {
         )
       .toPromise()
   }
+
+  async resetWidgets(): Promise<Widget[]> {
+    return await this.http.put<Widget[]>(`${HTTP_URL.Widgets}/reset`, []).toPromise()
+  }
 }
 
 export type getTodos = (widget: Widget) => Observable<TodoWidget[]>;

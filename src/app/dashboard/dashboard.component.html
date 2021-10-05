@@ -5,8 +5,12 @@
         <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
         <mat-icon>favorite</mat-icon> 
         </button> -->
-        <button mat-mini-fab class="example-icon" aria-label="Example icon-button with share icon">
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with add icon">
             <mat-icon round>add</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with reset icon" 
+                (click)="resetWidgets()" [matTooltip]="'Reset all the widgets to default. Be aware !'" #tooltip="matTooltip">
+            <mat-icon round>restart_alt</mat-icon>
         </button>
     </mat-toolbar-row>
 </mat-toolbar>

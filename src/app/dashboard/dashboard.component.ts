@@ -1,5 +1,6 @@
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, OnInit } from '@angular/core';
+import { SpinnerService } from '../spinner.service';
 import { DashboardService } from './dashboard.service';
 import { Tile } from './widgets/tile';
 
@@ -11,7 +12,7 @@ import { Tile } from './widgets/tile';
 export class DashboardComponent implements OnInit {
 
   tiles: Tile[] = [];
-  constructor(private service: DashboardService) { }
+  constructor(private service: DashboardService, private spinner: SpinnerService) { }
 
   ngOnInit(): void {
     (async() => {
@@ -25,5 +26,14 @@ export class DashboardComponent implements OnInit {
 
   async getTile(tile: Tile): Promise<any> {
 
+  }
+
+  async resetWidgets(): Promise<void> {
+    this.spinner.spin$.next(true)
+    await this.service.resetWidgets()
+    this.tiles = await this.getTiles().then(val => {
+      this.spinner.spin$.next(false)
+      return val
+    })
   }
 }
