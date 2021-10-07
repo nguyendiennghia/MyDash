@@ -9,6 +9,8 @@ import {MatCardModule} from '@angular/material/card'
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import {MatGridListModule} from '@angular/material/grid-list'
 import {MatTooltipModule} from '@angular/material/tooltip'
+import {MatNativeDateModule} from '@angular/material/core'
+import {MatDatepickerModule} from '@angular/material/datepicker'
 
 @NgModule({
   exports: [
@@ -20,7 +22,9 @@ import {MatTooltipModule} from '@angular/material/tooltip'
     MatCardModule,
     MatProgressSpinnerModule,
     MatGridListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ]
 })
 export class MaterialComponent  {}

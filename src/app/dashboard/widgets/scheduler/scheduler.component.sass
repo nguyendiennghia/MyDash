@@ -1,0 +1,14 @@
+.example-spacer
+  flex: 1 1 auto
+
+[flex]
+    flex-direction: column
+    span, mat-icon
+        visibility: none
+        opacity: 0
+        transition: visibility 0s, opacity 0.5s linear
+    &:hover 
+        span, mat-icon
+            visibility: visible
+            opacity: 1
+            cursor: pointer

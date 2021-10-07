@@ -28,12 +28,16 @@ export class DashboardService {
 
   async cast<TWidget extends Widget>(widget: Widget): Promise<TWidget[]> {
     
-    if (widget.type == WidgetType.Todo) {
-      return of(<TWidget[]> JSON.parse(widget.data.replace('\n', '').replace('\r', '')))
-      .toPromise()
-    }
+    switch(widget.type)
+    {
+      case WidgetType.Todo:
+      case WidgetType.Scheduler:
+        return of(<TWidget[]> JSON.parse(widget.data.replace('\n', '').replace('\r', '')))
+        .toPromise()
 
-    throw new Error('Not supported')
+      default:
+        throw new Error('Not supported')
+    }
      
   }
 
@@ -48,7 +52,6 @@ export class DashboardService {
     
       this.http.put<void>(`${HTTP_URL.Widgets}/${groupId}`, widgets)
         .pipe(
-          // TEST
           //tap(val => console.log(JSON.stringify(val)))
         )
       .toPromise()

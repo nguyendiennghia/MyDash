@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { Guid } from 'guid-typescript'
 
 export enum WidgetType {
@@ -15,13 +16,20 @@ export class Widget {
 }
 
 export class TodoItem {
-    name!: string;
-    details!: string;
+    name!: string
+    details!: string
 }
 export class TodoWidget extends Widget {
-    todo: TodoItem[] = [];
-    ongoing: TodoItem[] = [];
-    done: TodoItem[] = [];
+    todo: TodoItem[] = []
+    ongoing: TodoItem[] = []
+    done: TodoItem[] = []
+}
+
+export class SchedulerWidget extends Widget {
+    end!: Date
+    desc!: string
+    mode: string = 'countdown' // or progress
+    display: string = 'time' // or datetime
 }
 
 

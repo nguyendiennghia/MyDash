@@ -1,0 +1,27 @@
+<div flex fxLayout="row">
+    <div fxFlex="72">
+        <button *ngIf="!editing" mat-icon-button color="primary" (click)="toggle()">
+            <mat-icon>add</mat-icon>
+        </button>
+        <div *ngIf="editing" class="edit">
+            <mat-form-field appearance="fill">
+                <mat-label>Add description</mat-label>
+                <input matInput [(ngModel)]="desc">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Choose period</mat-label>
+                <input matInput [(ngModel)]="date" type="datetime-local">
+            </mat-form-field>
+            
+        </div>             
+    </div>
+    <div fxFlex="28" *ngIf="editing">
+        <div flex fxLayout="column">
+            <button mat-raised-button color="primary" (click)="add()" [disabled]="!desc || !date">Add</button>
+            <button mat-raised-button color="warn" (click)="toggle()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+

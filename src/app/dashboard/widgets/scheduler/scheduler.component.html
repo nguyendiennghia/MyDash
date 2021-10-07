@@ -1,0 +1,10 @@
+<div flex fxLayout="row">
+    <div fxFlex="50">
+        <div flex fxLayout="row">
+            {{ scheduler.desc }}
+            <span class="example-spacer"></span>
+            <mat-icon color="warn" (click)="delete()">cancel</mat-icon>
+        </div>
+    </div>
+    <div fxFlex="50">{{ display }}</div>
+</div>

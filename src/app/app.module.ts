@@ -25,6 +25,8 @@ import { SchedulersComponent } from './dashboard/widgets/schedulers/schedulers.c
 import { GraphsComponent } from './dashboard/widgets/graphs/graphs.component';
 import { WidgetContainerComponent } from './dashboard/widgets/widget-container/widget-container.component';
 import { TodoAddComponent } from './dashboard/widgets/todo-add/todo-add.component';
+import { SchedulerComponent } from './dashboard/widgets/scheduler/scheduler.component';
+import { SchedulerAddComponent } from './dashboard/widgets/scheduler-add/scheduler-add.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { TodoAddComponent } from './dashboard/widgets/todo-add/todo-add.componen
     SchedulersComponent,
     GraphsComponent,
     WidgetContainerComponent,
-    TodoAddComponent
+    TodoAddComponent,
+    SchedulerComponent,
+    SchedulerAddComponent
   ],
   imports: [
     BrowserModule,

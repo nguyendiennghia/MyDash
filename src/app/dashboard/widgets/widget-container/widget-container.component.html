@@ -20,6 +20,7 @@
         </mat-toolbar>
 
         <div *ngIf="!widgets" class="loading">
+            <!--TODO: Backdrop service-->
             Loading..<mat-spinner></mat-spinner>
         </div>
 
@@ -30,7 +31,9 @@
                 </span>
                 <app-urls *ngSwitchCase="widgetTypes.Url"></app-urls>
                 <app-rss *ngSwitchCase="widgetTypes.Rss"></app-rss>
-                <app-schedulers *ngSwitchCase="widgetTypes.Scheduler"></app-schedulers>
+                <app-schedulers *ngSwitchCase="widgetTypes.Scheduler" [widget]="widget" 
+                    (widgetEvent)="handleWidget($event)">
+                </app-schedulers>
                 <app-graphs *ngSwitchCase="widgetTypes.Graph"></app-graphs>
                 <div *ngSwitchDefault [innerHTML]="widget.data"></div>
             </span>

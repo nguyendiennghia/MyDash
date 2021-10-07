@@ -23,7 +23,6 @@ export class TodoAddComponent implements OnInit {
   }
 
   add(): void {
-    debugger;
     this.addEvent.emit(<TodoItem> { name: this.todoName })
     this.editing = false
     this.todoName = ''

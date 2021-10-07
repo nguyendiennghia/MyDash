@@ -8,12 +8,13 @@ import { delay, finalize, map } from 'rxjs/operators'
 import { HTTP_URL, COOKIE_KEY } from '../common/backend'
 import { User } from '../common/user';
 import { Tile } from '../dashboard/widgets/tile';
-import { TodoWidget, Widget, WidgetType } from '../dashboard/widgets/widget';
+import { SchedulerWidget, TodoWidget, Widget, WidgetType } from '../dashboard/widgets/widget';
 
 @Injectable()
 export class FakeHttpInterceptor implements HttpInterceptor {
 
     widgetID1: number = WidgetType.Todo;
+    widgetID2: number = WidgetType.Scheduler;
 
     constructor(private cookie: CookieService) {}
 
@@ -47,7 +48,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         }
 
         let defaultTiles = [
-            <Tile> { color: 'orange', cols: 1, rows: 1, content: 4, name: 'Scheduler' },
+            <Tile> { color: 'orange', cols: 1, rows: 1, content: this.widgetID2, name: 'Scheduler' },
             <Tile> { color: '#ddbdf1', cols: 3, rows: 1, content: 5, name: 'Graph' },
             <Tile> { color: 'lightgreen', cols: 1, rows: 2, content: 2, name: 'Url' },
             <Tile> { color: 'lightblue', cols: 3, rows: 2, content: this.widgetID1, name: 'ToDo', desc: 'TODO list items' },
@@ -111,7 +112,20 @@ export class FakeHttpInterceptor implements HttpInterceptor {
             return of(new HttpResponse({ status: 200, body: widgets }))
                  .pipe(
                      delay( Math.floor(Math.random() * 3000) )
-            //         //finalize(() => this.cookie.set(COOKIE_KEY.User, '{}'))
+                 )
+        }
+
+        if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID2}`)) {
+            let widgets = (<Widget[]> req.body) // Scheduler
+                .concat(this.getWidgets(WidgetType.Raw)).concat(this.getWidgets(WidgetType.Url))
+                .concat(this.getWidgets(WidgetType.Rss)).concat(this.getWidgets(WidgetType.Todo))
+                .concat(this.getWidgets(WidgetType.Graph))
+            
+            this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
+
+            return of(new HttpResponse({ status: 200, body: widgets }))
+                 .pipe(
+                     delay( Math.floor(Math.random() * 3000) )
                  )
         }
 
@@ -193,9 +207,29 @@ const defaultRssWidgets: Widget[] = [
 ]
 
 const defaultSchedulerWidgets: Widget[] = [
-    <Widget> { type: WidgetType.Scheduler, data: '<time>8:30</time>' },
-    <Widget> { type: WidgetType.Scheduler, data: '<time>11:30</time>' },
-    <Widget> { type: WidgetType.Scheduler, data: '<time datetime="2021-11-30 12:00">30 Nov</time>' }
+    <Widget> { 
+        type: WidgetType.Scheduler, 
+        data: JSON.stringify( [
+            <SchedulerWidget> {
+                end: new Date(2021, 10, 30, 12, 30),
+                desc: 'Morning meeting',
+                mode: 'countdown',
+                display: 'time'
+            },
+            <SchedulerWidget> {
+                end: new Date(2021, 9, 30),
+                desc: 'Application!',
+                mode: 'countdown',
+                display: 'datetime'
+            },
+            <SchedulerWidget> {
+                end: new Date(2021, 9, 30),
+                desc: 'October Trip',
+                mode: 'progress',
+                display: 'datetime'
+            }
+        ]
+    ) }
 ]
 
 const defaultGraphWidgets: Widget[] = [
