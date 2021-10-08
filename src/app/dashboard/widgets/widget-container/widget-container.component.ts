@@ -29,7 +29,6 @@ export class WidgetContainerComponent implements OnInit {
   async handleWidget(widget: Widget) {
     //await this.service.save(this.groupId, this.widgets.splice(index, 1, widget))
     //console.log(JSON.stringify(widget))
-    debugger
     await this.service.save(this.groupId, this.widgets)
   }
 }

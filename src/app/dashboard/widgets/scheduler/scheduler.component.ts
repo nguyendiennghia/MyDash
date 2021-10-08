@@ -25,7 +25,6 @@ export class SchedulerComponent implements OnInit {
     let now = new Date()
     let ms = new Date(this.scheduler.end).valueOf() - now.valueOf()
     let seconds = Math.floor(ms / 1000)
-
     let days = Math.floor(seconds / 86400)
     let hours = Math.floor( (seconds - days * 86400) / 3600 )
     let mins = Math.floor( (seconds - days * 86400 - hours * 3600) / 60 )

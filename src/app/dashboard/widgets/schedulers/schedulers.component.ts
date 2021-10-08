@@ -33,8 +33,10 @@ export class SchedulersComponent implements OnInit, OnChanges {
     this.widgetEvent.emit(this.widget)
   }
 
-  async add(scheduler: SchedulerWidget) {
-    this.schedulers.push(scheduler)
+  async submit(scheduler: SchedulerWidget) {
+    if (!this.schedulers.includes(scheduler))
+      this.schedulers.push(scheduler)
+
     this.widget = await this.service.edit(this.widget, this.schedulers)
     this.widgetEvent.emit(this.widget)
   }

@@ -5,23 +5,22 @@
         </button>
         <div *ngIf="editing" class="edit">
             <mat-form-field appearance="fill">
-                <mat-label>Add description</mat-label>
+                <mat-label>{{ scheduler ? 'Edit description' : 'Add description' }}</mat-label>
                 <input matInput [(ngModel)]="desc">
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Choose period</mat-label>
-                <input matInput [(ngModel)]="date" type="datetime-local">
+                <input matInput type="datetime-local"
+                    [value]="date" (change)="setDate($event)" />
             </mat-form-field>
             
         </div>             
     </div>
     <div fxFlex="28" *ngIf="editing">
         <div flex fxLayout="column">
-            <button mat-raised-button color="primary" (click)="add()" [disabled]="!desc || !date">Add</button>
+            <button *ngIf="!scheduler" mat-raised-button color="primary" (click)="add()" [disabled]="!desc || !date">Add</button>
+            <button *ngIf="scheduler" mat-raised-button color="primary" (click)="edit()" [disabled]="!desc || !date">Edit</button>
             <button mat-raised-button color="warn" (click)="toggle()">Cancel</button>
         </div>
     </div>
 </div>
-
-
-
