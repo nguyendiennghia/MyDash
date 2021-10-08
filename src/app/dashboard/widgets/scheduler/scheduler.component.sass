@@ -3,12 +3,21 @@
 
 [flex]
     flex-direction: column
-    span, mat-icon
+    .example-spacer, mat-icon
         visibility: none
         opacity: 0
         transition: visibility 0s, opacity 0.5s linear
     &:hover 
-        span, mat-icon
+        .example-spacer, mat-icon
             visibility: visible
             opacity: 1
             cursor: pointer
+
+.blink
+  animation: blinker 1s step-start infinite
+  color: red
+  font-weight: bold
+
+@keyframes blinker
+  50%
+    opacity: 0
