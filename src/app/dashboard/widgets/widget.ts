@@ -25,11 +25,21 @@ export class TodoWidget extends Widget {
     done: TodoItem[] = []
 }
 
+export enum SchedulerReoccuranceType {
+    Unset,
+    Daily,
+    Monthly,
+    Quarterly,
+    Yearly,
+    Customer
+}
+
 export class SchedulerWidget extends Widget {
     end!: Date
     desc!: string
     mode: string = 'countdown' // or progress
     display: string = 'time' // or datetime
+    reoccurance: SchedulerReoccuranceType = SchedulerReoccuranceType.Unset
 }
 
 

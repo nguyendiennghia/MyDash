@@ -2,11 +2,19 @@
     flex-direction: column
 
 mat-form-field
-  width: 100%
+    width: 100%
+
+::ng-deep .mat-form-field-wrapper
+   margin-bottom: -1.25em
+
+mat-slide-toggle
+    height: 100%
 
 [fxLayout="column"]
     gap: 5px
 [fxLayout="row"]
-    gap: 10px
+    gap: 5px
 
+::ng-deep .ngx-timepicker-control__arrow
+    line-height: normal
     

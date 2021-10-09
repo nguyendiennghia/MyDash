@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { interval, Subject, Subscription } from 'rxjs';
-import { SchedulerWidget } from '../widget';
+import { SchedulerReoccuranceType, SchedulerWidget } from '../widget';
 
 @Component({
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.sass']
 })
-export class SchedulerComponent implements OnInit {
+export class SchedulerComponent implements OnInit, OnChanges {
 
   @Input() scheduler!: SchedulerWidget
   @Output() deleteEvent: EventEmitter<SchedulerWidget> = new EventEmitter<SchedulerWidget>()
@@ -20,6 +20,17 @@ export class SchedulerComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = interval(1000)
       .subscribe(x => !this.due ? this.update() : null)
+  }
+
+  ngOnChanges(_: SimpleChanges) {
+    let today = new Date()
+    today.setHours(0, 0)
+    let date = new Date(this.scheduler.end)
+    if (this.scheduler.reoccurance == SchedulerReoccuranceType.Daily && date < today) {
+      let hour = date.getHours(), min = date.getMinutes()
+      this.scheduler.end = today
+      this.scheduler.end.setHours(hour, min)
+    }
   }
 
   async update() {
@@ -56,9 +67,9 @@ export class SchedulerComponent implements OnInit {
 
   private async notify(): Promise<void> {
     let title = this.scheduler.desc
-    let msg = `Just dued after ${this.scheduler.end.toLocaleString()}`
+    let msg = `Just dued at ${this.scheduler.end.toLocaleString()}`
     if(! ('Notification' in window) ){
-      alert(msg)
+      alert(`${title}: ${msg}`)
       return
     }  
     Notification.requestPermission(function(permission){
