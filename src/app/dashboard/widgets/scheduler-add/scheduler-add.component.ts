@@ -21,8 +21,10 @@ export class SchedulerAddComponent implements OnInit {
     this.editing = true
     this.desc = value.desc
     let date = new Date(value.end)
-    if (value.reoccurance == SchedulerReoccuranceType.Unset)
+    if (value.reoccurance == SchedulerReoccuranceType.Unset) {
       this.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16)
+      this.occurance = false
+    }
     else {
       this.time = `${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
       this.occurance = true

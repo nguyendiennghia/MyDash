@@ -27,6 +27,7 @@ import { WidgetContainerComponent } from './dashboard/widgets/widget-container/w
 import { TodoAddComponent } from './dashboard/widgets/todo-add/todo-add.component';
 import { SchedulerComponent } from './dashboard/widgets/scheduler/scheduler.component';
 import { SchedulerAddComponent } from './dashboard/widgets/scheduler-add/scheduler-add.component';
+import { StorageServiceModule } from 'ngx-webstorage-service'
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { SchedulerAddComponent } from './dashboard/widgets/scheduler-add/schedul
     BrowserAnimationsModule,
     MaterialComponent,
     CdkComponent,
-    FlexLayoutModule
+    FlexLayoutModule,
+    StorageServiceModule
   ],
   providers: [
     {

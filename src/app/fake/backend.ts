@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Guid } from 'guid-typescript';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, of } from 'rxjs';
@@ -9,6 +9,7 @@ import { HTTP_URL, COOKIE_KEY } from '../common/backend'
 import { User } from '../common/user';
 import { Tile } from '../dashboard/widgets/tile';
 import { SchedulerWidget, TodoWidget, Widget, WidgetType } from '../dashboard/widgets/widget';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service'
 
 @Injectable()
 export class FakeHttpInterceptor implements HttpInterceptor {
@@ -16,7 +17,9 @@ export class FakeHttpInterceptor implements HttpInterceptor {
     widgetID1: number = WidgetType.Todo;
     widgetID2: number = WidgetType.Scheduler;
 
-    constructor(private cookie: CookieService) {}
+    constructor(
+        private cookie: CookieService, 
+        @Inject(LOCAL_STORAGE) private storage: StorageService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -64,13 +67,13 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         }
 
         if (req.method === 'GET' && req.url.includes(HTTP_URL.Tiles)) {
-            let data = this.cookie.get(COOKIE_KEY.Tiles)
+            let data = this.storage.get(COOKIE_KEY.Tiles)
             let tiles: Tile[]
             if (!data) {
-                this.cookie.set(COOKIE_KEY.Tiles, JSON.stringify(tiles = defaultTiles))
+                this.storage.set(COOKIE_KEY.Tiles, JSON.stringify(tiles = defaultTiles))
             }
             else {
-                tiles = <Tile[]> JSON.parse(this.cookie.get(COOKIE_KEY.Tiles))
+                tiles = <Tile[]> JSON.parse(this.storage.get(COOKIE_KEY.Tiles))
             }
 
             return of(new HttpResponse({ status: 200, body: tiles }))
@@ -107,7 +110,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
                 .concat(this.getWidgets(WidgetType.Rss)).concat(this.getWidgets(WidgetType.Scheduler))
                 .concat(this.getWidgets(WidgetType.Graph))
             
-            this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
+            this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
 
             return of(new HttpResponse({ status: 200, body: widgets }))
                  .pipe(
@@ -121,7 +124,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
                 .concat(this.getWidgets(WidgetType.Rss)).concat(this.getWidgets(WidgetType.Todo))
                 .concat(this.getWidgets(WidgetType.Graph))
             
-            this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
+            this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
 
             return of(new HttpResponse({ status: 200, body: widgets }))
                  .pipe(
@@ -130,7 +133,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         }
 
         if (req.method === 'PUT' && req.url.endsWith(`${HTTP_URL.Widgets}/reset`)) {
-            this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
+            this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
             return of(new HttpResponse({ status: 200, body: defaultWidgets }))
                  .pipe(
                      delay( Math.floor(Math.random() * 3000) )
@@ -146,10 +149,10 @@ export class FakeHttpInterceptor implements HttpInterceptor {
     }
 
     getWidgets(type?: WidgetType): Widget[] {
-        let data = this.cookie.get(COOKIE_KEY.Widgets)
+        let data = this.storage.get(COOKIE_KEY.Widgets)
         let widgets: Widget[]
         if (!data) {
-            this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
+            this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
             widgets = defaultWidgets
         }
         else widgets = <Widget[]> JSON.parse(data)
@@ -159,7 +162,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
     }
 
     resetToDefault(): Widget[] {
-        this.cookie.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
+        this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
         return defaultWidgets
     }
 }
