@@ -30,7 +30,7 @@
                     <app-todos [widget]="widget" (widgetEvent)="handleWidget($event)"></app-todos>
                 </span>
                 <app-urls *ngSwitchCase="widgetTypes.Url"></app-urls>
-                <app-rss *ngSwitchCase="widgetTypes.Rss"></app-rss>
+                <app-rss *ngSwitchCase="widgetTypes.Rss" [widget]="widget"></app-rss>
                 <app-schedulers *ngSwitchCase="widgetTypes.Scheduler" [widget]="widget" 
                     (widgetEvent)="handleWidget($event)">
                 </app-schedulers>

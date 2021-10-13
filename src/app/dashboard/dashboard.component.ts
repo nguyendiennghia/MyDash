@@ -1,5 +1,7 @@
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { delay, finalize, tap } from 'rxjs/operators';
 import { SpinnerService } from '../spinner.service';
 import { DashboardService } from './dashboard.service';
 import { Tile } from './widgets/tile';
@@ -12,7 +14,7 @@ import { Tile } from './widgets/tile';
 export class DashboardComponent implements OnInit {
 
   tiles: Tile[] = [];
-  constructor(private service: DashboardService, private spinner: SpinnerService) { }
+  constructor(private service: DashboardService, private spinner: SpinnerService, public modal: MatDialog) { }
 
   ngOnInit(): void {
     (async() => {
@@ -36,4 +38,28 @@ export class DashboardComponent implements OnInit {
       return val
     })
   }
+
+  configWidgets() {
+    let modalRef = this.modal.open(DashboardConfigComponent, {
+      data: {}
+    })
+    modalRef.afterClosed()
+      // .pipe(
+      //   delay(2000)
+      //   finalize(n => ))
+      // )
+      .subscribe(r => {
+        console.log('modal closed')
+      })
+  }
+}
+
+@Component({
+  selector: 'app-dashboard-config',
+  templateUrl: 'dashboard-config.component.html',
+  
+})
+export class DashboardConfigComponent {
+  panelOpenState: boolean = false
+  constructor(private service: DashboardService, private spinner: SpinnerService) {}
 }

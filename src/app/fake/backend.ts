@@ -3,12 +3,12 @@ import { Inject, Injectable } from '@angular/core';
 import { Guid } from 'guid-typescript';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, of } from 'rxjs';
-import { delay, finalize, map } from 'rxjs/operators'
+import { delay, finalize, tap, catchError } from 'rxjs/operators'
 
 import { HTTP_URL, COOKIE_KEY } from '../common/backend'
 import { User } from '../common/user';
 import { Tile } from '../dashboard/widgets/tile';
-import { SchedulerWidget, TodoWidget, Widget, WidgetType } from '../dashboard/widgets/widget';
+import { RssWidget, SchedulerWidget, TodoWidget, Widget, WidgetType } from '../dashboard/widgets/widget';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service'
 
 @Injectable()
@@ -16,6 +16,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
 
     widgetID1: number = WidgetType.Todo;
     widgetID2: number = WidgetType.Scheduler;
+    widgetID3: number = WidgetType.Rss
 
     constructor(
         private cookie: CookieService, 
@@ -57,7 +58,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
             <Tile> { color: 'lightblue', cols: 3, rows: 2, content: this.widgetID1, name: 'ToDo', desc: 'TODO list items' },
             <Tile> { color: 'lightpink', cols: 1, rows: 1, content: 0, name: 'Raw' },
             
-            <Tile> { color: 'yellow', cols: 2, rows: 1, content: 3, name: 'RSS' },
+            <Tile> { color: 'yellow', cols: 2, rows: 1, content: this.widgetID3, name: 'RSS - Quotes' },
         ]
         if (req.method === 'GET' && req.url.includes(HTTP_URL.DefaultTiles)) {
             return of(new HttpResponse({ status: 200, body: defaultTiles }))
@@ -91,7 +92,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
 
             else if (req.url.endsWith(`/${WidgetType.Url}`)) widgets = this.getWidgets(WidgetType.Url)
 
-            else if (req.url.endsWith(`/${WidgetType.Rss}`)) widgets = this.getWidgets(WidgetType.Rss)
+            else if (req.url.endsWith(`/${this.widgetID3}`)) { widgets = this.getWidgets(WidgetType.Rss)}
 
             else if (req.url.endsWith(`/${WidgetType.Scheduler}`)) widgets = this.getWidgets(WidgetType.Scheduler)
 
@@ -142,13 +143,39 @@ export class FakeHttpInterceptor implements HttpInterceptor {
 
         // TODO: More
 
-        return of(new HttpResponse({ status: 500 }))
-            .pipe(
-                finalize(() => console.log(`Http request not supported: ${req.url}`))
-            )
+        // return of(new HttpResponse({ status: 500 }))
+        //     .pipe(
+        //         finalize(() => console.log(`Http request not supported: ${req.url}`))
+        //     )
+
+        //req.headers.append('Access-Control-Allow-Origin', '*')
+        
+// intercept OPTIONS method
+//if (req.method == 'OPTIONS' || req.method == 'GET') {
+    //res.send(200);
+    
+  //}
+
+    next.handle(req)
+  
+
+        return next.handle(req)
+            //.pipe(
+                // tap(event => {
+                //     debugger
+                //     if (event instanceof HttpResponse) {
+                    
+                // }
+                // catchError((err, caught) => {
+
+                // })
+            //}
+            //)
+        //)
     }
 
     getWidgets(type?: WidgetType): Widget[] {
+
         let data = this.storage.get(COOKIE_KEY.Widgets)
         let widgets: Widget[]
         if (!data) {
@@ -205,8 +232,31 @@ const defaultUrlWidgets: Widget[] = [
 ]
 
 const defaultRssWidgets: Widget[] = [
-    <Widget> { type: WidgetType.Rss, data: '<section>BBC<article>BBC 1</article><article>BBC 2</article></section>' },
-    <Widget> { type: WidgetType.Rss, data: '<section>BuzzFeed<article>BuzzFeed 1</article><article>BuzzFeed 2</article></section>' }
+    <Widget> { 
+        type: WidgetType.Rss, 
+        data: JSON.stringify([
+            <RssWidget> {
+                subject: 'Motivational Quotes',
+                sources: [
+                    'https://gadgets.ndtv.com/rss/feeds',
+                    //'https://vnexpress.net/rss/tin-moi-nhat.rss',
+                    //'https://www.w3schools.com/xml/note.xml'
+                    'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
+                    //'https://www.brainyquote.com/link/quotebr.rss',
+                    // 'https://www.brainyquote.com/feeds/quotear.rss',
+                    // 'https://www.brainyquote.com/link/quotefu.rss',
+                    // 'https://www.brainyquote.com/link/quotelo.rss',
+                    // 'https://www.brainyquote.com/link/quotena.rss',
+                    'https://thanhnien.vn/rss/home.rss'
+                ]
+            }
+        ])
+        
+    }
+    // <Widget> { 
+    //     type: WidgetType.Rss, 
+    //     data: '<section>BuzzFeed<article>BuzzFeed 1</article><article>BuzzFeed 2</article></section>' 
+    // }
 ]
 
 const defaultSchedulerWidgets: Widget[] = [

@@ -1,1 +1,8 @@
-<p>rss works!</p>
+<div *ngFor="let set of rss">
+    <!-- TODO: Carousel -->
+    <h3>{{ set.subject }}</h3>
+    <ul>
+        <li *ngFor="let src of set.sources">{{ src }}</li>
+    </ul>
+</div>
+{{ items.length }}

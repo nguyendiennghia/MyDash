@@ -30,6 +30,7 @@ export class DashboardService {
     
     switch(widget.type)
     {
+      case WidgetType.Rss:
       case WidgetType.Todo:
       case WidgetType.Scheduler:
         return of(<TWidget[]> JSON.parse(widget.data.replace('\n', '').replace('\r', '')))
@@ -59,6 +60,10 @@ export class DashboardService {
 
   async resetWidgets(): Promise<Widget[]> {
     return await this.http.put<Widget[]>(`${HTTP_URL.Widgets}/reset`, []).toPromise()
+  }
+
+  async configWidgets() {
+    //return await this.http.put<Widget[]>(`${HTTP_URL.Widgets}/reset`, []).toPromise()
   }
 }
 

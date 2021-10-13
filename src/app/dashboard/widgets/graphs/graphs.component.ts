@@ -9,7 +9,7 @@ import { Widget } from '../widget';
 export class GraphsComponent implements OnInit {
 
   @Input() items: Widget[] = []
-  
+  panelOpenState = false
   constructor() { }
 
   ngOnInit(): void {

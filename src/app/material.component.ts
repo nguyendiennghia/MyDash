@@ -13,8 +13,11 @@ import {MatNativeDateModule} from '@angular/material/core'
 import {MatDatepickerModule} from '@angular/material/datepicker'
 import {MatButtonToggleModule} from '@angular/material/button-toggle'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle'
+import {MatDialogModule} from '@angular/material/dialog'
+import {MatExpansionModule} from '@angular/material/expansion'
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker'
+import { of } from 'rxjs';
 
 @NgModule({
   exports: [
@@ -31,7 +34,10 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker'
     MatDatepickerModule,
     MatButtonToggleModule,
     MatSlideToggleModule,
-    NgxMaterialTimepickerModule
+    MatDialogModule,
+    MatExpansionModule,
+    
+    NgxMaterialTimepickerModule,
   ]
 })
 export class MaterialComponent  {}

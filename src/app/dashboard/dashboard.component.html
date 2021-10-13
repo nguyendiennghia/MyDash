@@ -2,11 +2,12 @@
     <mat-toolbar-row>
         <h1>Dashboard</h1>
         <span class="example-spacer"></span>
-        <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>favorite</mat-icon> 
-        </button> -->
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with add icon">
             <mat-icon round>add</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon"
+            (click)="configWidgets()" [matTooltip]="'Configure dashboard & its tiles'" #tooltip="matTooltip">
+            <mat-icon round>settings</mat-icon>
         </button>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with reset icon" 
                 (click)="resetWidgets()" [matTooltip]="'Reset all the widgets to default. Be aware !'" #tooltip="matTooltip">
@@ -18,26 +19,5 @@
 <mat-grid-list cols="5" rowHeight="1:1">
     <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
         <app-widget-container [color]="tile.color" [name]="tile.name" [desc]="tile.desc" [groupId]="tile.content"></app-widget-container>
-        <!--<mat-card [style.background]="tile.color">
-            <mat-card-content>
-                <mat-toolbar>
-                    <mat-toolbar-row>
-                        <span>Widget Header</span>
-                        <span class="example-spacer"></span>
-                        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-                        <mat-icon>favorite</mat-icon>
-                        </button>
-                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-                        <mat-icon>delete</mat-icon>
-                        </button>
-                    </mat-toolbar-row>
-                </mat-toolbar>
-                <h1>Content</h1>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>-->
     </mat-grid-tile>
 </mat-grid-list>

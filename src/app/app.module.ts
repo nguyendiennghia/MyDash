@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent, DashboardConfigComponent } from './dashboard/dashboard.component';
 import { ContactComponent } from './contact/contact.component';
 import { ConfigComponent } from './config/config.component';
 import { AuthComponent } from './auth/auth.component';
@@ -46,7 +46,8 @@ import { StorageServiceModule } from 'ngx-webstorage-service'
     WidgetContainerComponent,
     TodoAddComponent,
     SchedulerComponent,
-    SchedulerAddComponent
+    SchedulerAddComponent,
+    DashboardConfigComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +69,7 @@ import { StorageServiceModule } from 'ngx-webstorage-service'
     },
     CookieService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DashboardConfigComponent]
 })
 export class AppModule { }
