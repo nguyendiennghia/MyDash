@@ -1,8 +1,13 @@
-<div *ngFor="let set of rss">
-    <!-- TODO: Carousel -->
-    <h3>{{ set.subject }}</h3>
-    <ul>
-        <li *ngFor="let src of set.sources">{{ src }}</li>
-    </ul>
-</div>
-{{ items.length }}
+<!-- TODO: Carousel -->
+<h3>{{ rss[0].subject }}</h3>
+<!-- <ul>
+    <li *ngFor="let item of items">
+        {{ item }}
+    </li>
+</ul> -->
+<!-- <li>{{ items[0].description }}</li>
+<li>{{ items[0].title }}</li>
+<li>{{ items[0].link }}</li> -->
+<li>{{ items[0].pubDate }}</li>
+<li>{{ items[0].header.logo }}</li>
+<li>{{ items[0].header.section }}</li>

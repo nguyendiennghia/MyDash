@@ -59,8 +59,10 @@ export class RssWidgetConfig {
 }
 
 export class RssItem {
-    desc!: string
+    description!: string
     title!: string
     link!: string
+    pubDate!: Date
+    header: any
 }
 

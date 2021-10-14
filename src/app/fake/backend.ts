@@ -238,10 +238,10 @@ const defaultRssWidgets: Widget[] = [
             <RssWidget> {
                 subject: 'Motivational Quotes',
                 sources: [
-                    'https://gadgets.ndtv.com/rss/feeds',
+                    //'https://gadgets.ndtv.com/rss/feeds',
                     //'https://vnexpress.net/rss/tin-moi-nhat.rss',
                     //'https://www.w3schools.com/xml/note.xml'
-                    'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
+                    //'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
                     //'https://www.brainyquote.com/link/quotebr.rss',
                     // 'https://www.brainyquote.com/feeds/quotear.rss',
                     // 'https://www.brainyquote.com/link/quotefu.rss',
