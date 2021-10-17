@@ -64,5 +64,6 @@ export class RssItem {
     link!: string
     pubDate!: Date
     header: any
+    image!: string
 }
 

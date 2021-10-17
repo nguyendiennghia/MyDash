@@ -1,0 +1,27 @@
+$btn-width: 40px
+$slider-height: 140px
+
+mat-card-content
+    :not(mat-toolbar)
+        padding: 0 auto
+        
+.slide-item, owl-carousel-o
+    height: $slider-height
+
+owl-carousel-o
+    width: calc(100% - 2 * #{$btn-width})
+    .slide-item
+        line-height: normal
+        & *
+            margin: 5px
+
+.btn-left, .btn-right
+    width: $btn-width
+    vertical-align: middle
+
+owl-carousel-o, .btn-left, .btn-right
+    display: block
+    line-height: $slider-height
+    float: left    
+
+

@@ -28,6 +28,7 @@
     "guid-typescript": "^1.0.9",
     "ngx-cookie-service": "^12.0.3",
     "ngx-material-timepicker": "^5.5.3",
+    "ngx-owl-carousel-o": "^6.0.0",
     "ngx-webstorage-service": "^4.1.0",
     "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",

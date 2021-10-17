@@ -239,7 +239,8 @@ const defaultRssWidgets: Widget[] = [
                 subject: 'Motivational Quotes',
                 sources: [
                     //'https://gadgets.ndtv.com/rss/feeds',
-                    //'https://vnexpress.net/rss/tin-moi-nhat.rss',
+                    //'https://stackoverflow.com/feeds/',
+                    //'https://tuoitre.vn/rss/tin-moi-nhat.rss',
                     //'https://www.w3schools.com/xml/note.xml'
                     //'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
                     //'https://www.brainyquote.com/link/quotebr.rss',

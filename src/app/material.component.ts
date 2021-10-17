@@ -17,7 +17,7 @@ import {MatDialogModule} from '@angular/material/dialog'
 import {MatExpansionModule} from '@angular/material/expansion'
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker'
-import { of } from 'rxjs';
+import { CarouselModule } from 'ngx-owl-carousel-o'
 
 @NgModule({
   exports: [
@@ -36,8 +36,9 @@ import { of } from 'rxjs';
     MatSlideToggleModule,
     MatDialogModule,
     MatExpansionModule,
-    
+
     NgxMaterialTimepickerModule,
+    CarouselModule
   ]
 })
 export class MaterialComponent  {}

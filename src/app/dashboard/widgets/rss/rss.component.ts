@@ -4,6 +4,7 @@ import { DashboardService } from '../../dashboard.service'
 import { RssItem, RssWidget, Widget } from '../widget'
 import * as xml2js from 'xml2js'
 import {from} from 'rxjs'
+import { OwlOptions } from 'ngx-owl-carousel-o'
 
 @Component({
   selector: 'app-rss',
@@ -12,9 +13,37 @@ import {from} from 'rxjs'
 })
 export class RssComponent implements OnInit {
 
+  customOptions: OwlOptions = {
+    autoHeight: true,
+    loop: true,
+    items: 2,
+    margin: 15,
+     slideBy: 'page',
+    // merge: true,
+    autoplay: true,
+    autoplayTimeout: 2000,
+    autoplayHoverPause: true,
+		autoplaySpeed: 1500,
+    //dotsSpeed: 500,
+    autoplayMouseleaveTimeout: 1100,
+
+    mouseDrag: false,
+    touchDrag: false,
+    pullDrag: false,
+
+    dots: false,
+  }
+
   @Input() widget!: Widget
   rss: RssWidget[] = []
   items: RssItem[] = []
+
+  testContent: any[] = [
+    {text: 'ABC', img: 'https://image.thanhnien.vn/460x306/Uploaded/2021/churovh/2021_10_14/covid-19-nga-612.jpeg'},
+    {text: 'DEF', img: 'https://image.thanhnien.vn/460x306/Uploaded/2021/apluwaj/2021_10_14/base64-163421571516565381097-1315.jpeg'},
+    {text: '123', img: 'https://image.thanhnien.vn/460x306/Uploaded/2021/vocgmvub/2021_10_14/base64-1634189929805751298124-6298.jpeg'},
+    {text: '456', img: 'https://image.thanhnien.vn/460x306/Uploaded/2021/jutmty/2021_10_14/du-lich-cu-chi-1310.jpeg'}
+  ]
 
   constructor(private service: DashboardService, private http: HttpClient) { }
 
@@ -54,7 +83,6 @@ export interface NewsRss {
 }
 
 export interface IRssObject {
-  // $: any;
   channel: IRssChannel[];
 }
 
@@ -63,8 +91,6 @@ export interface IRssChannel {
   description: string
   link: string
   image: IRssImage[]
-  //language: string
-
   item: RssItem[];
 }
 
@@ -73,16 +99,3 @@ export interface IRssImage {
   title: string
   url: string
 }
-
-// export interface IRssItem {
-//   //category: Array<string>;
-//   //description: Array<string>;
-//   description: string
-//   link: string
-//   title: string
-//   //guid: any;
-//   //link: Array<string>;
-//   pubDate: Date
-//   //title: Array<string>;
-//   section: string
-// }
