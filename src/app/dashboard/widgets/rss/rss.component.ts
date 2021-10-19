@@ -81,25 +81,25 @@ export class RssComponent implements OnInit {
 
   ngOnInit(): void {
 
-    interval(60000)
+    interval(120000)
       .subscribe(x => {
         this.pullRss() 
       })
 
-      if (this.configEvt) {
-        this.configEvt.subscribe(() => this.editting = true)
-      }
+    if (this.configEvt) {
+      this.configEvt.subscribe(() => this.editting = true)
+    }
   }
 
   async configure(ok: boolean) {
     this.editting = false
     // TODO
     //console.log(`Should be reloaded: ${ok}`)
-    if (!ok) return;
-
-    this.widget = await this.service.edit(this.widget, this.rss)
-    this.widgetEvent.emit(this.widget)
-    await this.pullRss()
+    if (ok) {
+      this.widget = await this.service.edit(this.widget, this.rss)
+      this.widgetEvent.emit(this.widget)
+      await this.pullRss()
+    }
   }
 }
 
