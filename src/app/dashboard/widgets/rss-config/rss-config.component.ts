@@ -54,7 +54,7 @@ export class RssConfigComponent implements OnInit, OnChanges {
 
   applicable(): boolean {
     return this.sources.length != this.rss.sources.length ||
-      this.sources.some((v, i) => v != this.rss.sources[i])
+      this.sources.some((v, i) => this.sources[i] != this.rss.sources[i])
   }
 
   async delete(src: string) {
