@@ -24,4 +24,24 @@ owl-carousel-o, .btn-left, .btn-right
     line-height: $slider-height
     float: left    
 
+.mat-icon
+  font-size: 5px
 
+app-rss-config
+    position: absolute
+    display: none
+    opacity: 0
+    -webkit-transition: opacity 500ms, visibility 500ms
+    transition: opacity 600ms, visibility 400ms
+    visibility: hidden
+    animation: fade 0.7s
+    &.show
+        display: block
+        visibility: visible
+        opacity: 1
+
+@keyframes fade
+    0%
+        opacity: 0
+    100%
+        opacity: 1

@@ -1,0 +1,41 @@
+.btn-container
+    display: table-cell
+    button
+        margin-right: 0.5em
+
+$padding: 3px 10px
+$border: solid 1px #ccc
+$border-radius: 4px
+
+.example-list
+  border: $border
+  background: white
+  border-radius: $border-radius
+  overflow: hidden
+  display: block
+  span, mat-icon
+    visibility: none
+    opacity: 0    
+    transition: visibility 0s, opacity 0.5s linear
+
+.example-box
+  padding: $padding
+  border-bottom: $border
+  color: rgba(0, 0, 0, 0.87)
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: space-between
+  box-sizing: border-box
+  cursor: move
+  background: white
+  font-size: 14px
+  &:hover
+    span, mat-icon
+      visibility: visible
+      opacity: 1
+      cursor: pointer
+
+.spacer
+  flex: 1 1 auto
+

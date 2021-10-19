@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http'
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
 import { DashboardService } from '../../dashboard.service'
 import { RssItem, RssWidget, Widget } from '../widget'
 import * as xml2js from 'xml2js'
-import {from} from 'rxjs'
+import {from, interval, Observable} from 'rxjs'
 import { OwlOptions } from 'ngx-owl-carousel-o'
 
 @Component({
@@ -19,54 +19,60 @@ export class RssComponent implements OnInit {
     items: 2,
     margin: 15,
      slideBy: 'page',
-    // merge: true,
     autoplay: true,
     autoplayTimeout: 2000,
     autoplayHoverPause: true,
 		autoplaySpeed: 1500,
-    //dotsSpeed: 500,
     autoplayMouseleaveTimeout: 1100,
-
     mouseDrag: false,
     touchDrag: false,
     pullDrag: false,
-
     dots: false,
   }
 
   @Input() widget!: Widget
+  @Input() configEvt!: EventEmitter<void>
+  @Output() widgetEvent: EventEmitter<Widget> = new EventEmitter<Widget>()
+  editting: boolean = false
   rss: RssWidget[] = []
   items: RssItem[] = []
-
-  testContent: any[] = [
-    {text: 'ABC', img: 'https://image.thanhnien.vn/460x306/Uploaded/2021/churovh/2021_10_14/covid-19-nga-612.jpeg'},
-    {text: 'DEF', img: 'https://image.thanhnien.vn/460x306/Uploaded/2021/apluwaj/2021_10_14/base64-163421571516565381097-1315.jpeg'},
-    {text: '123', img: 'https://image.thanhnien.vn/460x306/Uploaded/2021/vocgmvub/2021_10_14/base64-1634189929805751298124-6298.jpeg'},
-    {text: '456', img: 'https://image.thanhnien.vn/460x306/Uploaded/2021/jutmty/2021_10_14/du-lich-cu-chi-1310.jpeg'}
-  ]
 
   constructor(private service: DashboardService, private http: HttpClient) { }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {   
+    this.rss = (await this.service.cast<RssWidget>(this.widget))
+    await this.pullRss()
+  }
+
+  private async pullRss() {
+    this.items = []
     const requestOptions: Object = {
       observe: "body",
-      responseType: "text"
+      responseType: "text",
+      'Cache-Control':  'no-cache, no-store, must-revalidate, post- check=0, pre-check=0',
+      'Pragma': 'no-cache',
+      'Expires': '0'
     }
-    this.rss = (await this.service.cast<RssWidget>(this.widget))
     this.rss.forEach(set => {
       set.sources.forEach(async src => {
+        const salt = (new Date()).getTime()
+        let url = `https://api.allorigins.win/get?&salt=${salt}&url=${encodeURIComponent(src)}`
         this.http
-          .get<any>(src, requestOptions)
+          .get<any>(url, requestOptions)
           .subscribe(data => {
-            let parseString = xml2js.parseString;
-            parseString(data, (err, result: NewsRss) => {
+            let parseString = xml2js.parseString
+            let xml = JSON.parse(data).contents.match(/(<rss(.|\r|\n)*)/g)[0]
+            
+            parseString(xml, (err, result: NewsRss) => {
+              let items: RssItem[] = []
               result.rss.channel[0].item.forEach(i => {
                 i.header = { 
-                  logo: result.rss.channel[0].image[0] ? result.rss.channel[0].image[0].url : '',
+                  logo: result.rss.channel[0].image && result.rss.channel[0].image[0] ? result.rss.channel[0].image[0].url : '',
                   section: result.rss.channel[0].title
                 }
-                this.items.push(i)
+                items.push(i)
               })
+              items.sort((a, b) => a.pubDate >= b.pubDate ? 1 : 0).forEach(i => this.items.push(i))
             })
           })
       })
@@ -74,8 +80,27 @@ export class RssComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    interval(60000)
+      .subscribe(x => {
+        this.pullRss() 
+      })
+
+      if (this.configEvt) {
+        this.configEvt.subscribe(() => this.editting = true)
+      }
   }
 
+  async configure(ok: boolean) {
+    this.editting = false
+    // TODO
+    //console.log(`Should be reloaded: ${ok}`)
+    if (!ok) return;
+
+    this.widget = await this.service.edit(this.widget, this.rss)
+    this.widgetEvent.emit(this.widget)
+    await this.pullRss()
+  }
 }
 
 export interface NewsRss {

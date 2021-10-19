@@ -15,6 +15,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle'
 import {MatDialogModule} from '@angular/material/dialog'
 import {MatExpansionModule} from '@angular/material/expansion'
+import {MatProgressBarModule} from '@angular/material/progress-bar'
+
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker'
 import { CarouselModule } from 'ngx-owl-carousel-o'
@@ -36,6 +38,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o'
     MatSlideToggleModule,
     MatDialogModule,
     MatExpansionModule,
+    MatProgressBarModule,
 
     NgxMaterialTimepickerModule,
     CarouselModule

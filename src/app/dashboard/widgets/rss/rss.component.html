@@ -1,52 +1,43 @@
-
-
-<!-- <carousel [height]="150" 
-    
-    [loop]="true" [autoplayInterval]="2500" [cellsToShow]="2"
->
-    <div *ngFor="let item of items" class="carousel-cell"
-        [style.height]="'100%'" 
-        [style.background]="'url(' + item.image +') no-repeat center center'"
-        [style.background-size]="'cover'"
-    >
-        <a href="{{item.link}}" target="_blank"
-            [style.color]="item.image ? 'white' : 'black'" 
-            [style.text-decoration]="'none'"
-        >
-            {{ item.title }}
-            <span [innerHTML]="item.description"></span>
-        </a>
+<div *ngIf="!editting">
+    <div *ngIf="!items || !items.length">
+        <div *ngFor="let src of rss[0].sources">
+            Fetching {{src}}<mat-spinner [diameter]="30"></mat-spinner>
+        </div>
     </div>
-</carousel> -->
-<div class="btn-left">
-    <button mat-icon-button>
-        <mat-icon [inline]="true">chevron_left</mat-icon>
-    </button>
-</div>
-<owl-carousel-o [options]="customOptions">
-    <ng-template *ngFor="let item of items" carouselSlide>
-        <div [style.background]="'url(' + item.image +') no-repeat center center'" 
-             [style.background-size]="'cover'" class="slide-item">
 
-            <div>
-
-            <a href="{{item.link}}" target="_blank"
-                [style.color]="item.image ? 'white' : 'black'" 
-                [style.text-decoration]="'none'"
-            >
-                <b>{{item.header.section}}</b> - {{ item.title }}
-                <!-- <span [innerHTML]="item.description"></span> -->
-            </a>
-
+    <div *ngIf="items && items.length">
+        <div class="btn-left">
+            <button mat-icon-button>
+                <mat-icon [inline]="true">chevron_left</mat-icon>
+            </button>
         </div>
-
-            <!-- <div [innerHTML]="item.description"></div> -->
+        <owl-carousel-o [options]="customOptions">
+            <ng-template *ngFor="let item of items" carouselSlide>
+                <div [style.background]="'url(' + item.image +') no-repeat center center'" 
+                    [style.background-size]="'cover'" class="slide-item">
+                    <div>
+                        <a href="{{item.link}}" target="_blank"
+                            [style.color]="item.image ? 'white' : 'black'" 
+                            [style.text-decoration]="'none'"
+                        >
+                            <b>{{item.header.section}}</b> - {{ item.title }}
+                            <!-- <span [innerHTML]="item.description"></span> -->
+                        </a>
+                    </div>
+                    <!-- <div [innerHTML]="item.description"></div> -->
+                </div>
+            </ng-template>   
+        </owl-carousel-o>
+        <div class="btn-right">
+            <button mat-icon-button>
+                <mat-icon [inline]="true">chevron_right</mat-icon>
+            </button>
         </div>
-    </ng-template>   
-</owl-carousel-o>
-
-<div class="btn-right">
-    <button mat-icon-button>
-        <mat-icon [inline]="true">chevron_right</mat-icon>
-    </button>
+    </div>
 </div>
+
+<app-rss-config 
+    [ngClass]="{ 'show': (editting && rss.length > 0) }" 
+    (configEvt)="configure($event)" 
+    [rss]="rss[0]">
+</app-rss-config>

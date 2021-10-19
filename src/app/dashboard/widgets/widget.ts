@@ -47,7 +47,6 @@ export class RssWidget extends Widget {
     subject: string = ''
     config: RssWidgetConfig = new RssWidgetConfig()
     sources: string[] = []
-    items: RssItem[] = []
 }
 
 export class RssWidgetConfig {

@@ -133,6 +133,20 @@ export class FakeHttpInterceptor implements HttpInterceptor {
                  )
         }
 
+        if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID3}`)) {
+            let widgets = (<Widget[]> req.body) // Rss
+                .concat(this.getWidgets(WidgetType.Raw)).concat(this.getWidgets(WidgetType.Url))
+                .concat(this.getWidgets(WidgetType.Scheduler)).concat(this.getWidgets(WidgetType.Todo))
+                .concat(this.getWidgets(WidgetType.Graph))
+            
+            this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
+
+            return of(new HttpResponse({ status: 200, body: widgets }))
+                 .pipe(
+                     delay( Math.floor(Math.random() * 3000) )
+                 )
+        }
+
         if (req.method === 'PUT' && req.url.endsWith(`${HTTP_URL.Widgets}/reset`)) {
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
             return of(new HttpResponse({ status: 200, body: defaultWidgets }))
@@ -141,37 +155,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
                  )
         }
 
-        // TODO: More
-
-        // return of(new HttpResponse({ status: 500 }))
-        //     .pipe(
-        //         finalize(() => console.log(`Http request not supported: ${req.url}`))
-        //     )
-
-        //req.headers.append('Access-Control-Allow-Origin', '*')
-        
-// intercept OPTIONS method
-//if (req.method == 'OPTIONS' || req.method == 'GET') {
-    //res.send(200);
-    
-  //}
-
-    next.handle(req)
-  
-
         return next.handle(req)
-            //.pipe(
-                // tap(event => {
-                //     debugger
-                //     if (event instanceof HttpResponse) {
-                    
-                // }
-                // catchError((err, caught) => {
-
-                // })
-            //}
-            //)
-        //)
     }
 
     getWidgets(type?: WidgetType): Widget[] {
@@ -240,15 +224,15 @@ const defaultRssWidgets: Widget[] = [
                 sources: [
                     //'https://gadgets.ndtv.com/rss/feeds',
                     //'https://stackoverflow.com/feeds/',
-                    //'https://tuoitre.vn/rss/tin-moi-nhat.rss',
-                    //'https://www.w3schools.com/xml/note.xml'
                     //'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml',
                     //'https://www.brainyquote.com/link/quotebr.rss',
                     // 'https://www.brainyquote.com/feeds/quotear.rss',
                     // 'https://www.brainyquote.com/link/quotefu.rss',
                     // 'https://www.brainyquote.com/link/quotelo.rss',
                     // 'https://www.brainyquote.com/link/quotena.rss',
-                    'https://thanhnien.vn/rss/home.rss'
+                    'https://vnexpress.net/rss/tin-moi-nhat.rss',
+                    //'https://thanhnien.vn/rss/home.rss',
+                    //'https://tuoitre.vn/rss/tin-moi-nhat.rss',
                 ]
             }
         ])

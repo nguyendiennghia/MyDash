@@ -1,0 +1,32 @@
+<!-- <ul *ngIf="sources">
+   <li *ngFor="let src of sources">
+       {{src}}
+   </li>
+</ul> -->
+
+<div class="example-container">
+    <div
+    cdkDropList
+    #inProgressList="cdkDropList"
+    [cdkDropListData]="sources"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let src of sources" cdkDrag>
+      {{src}}
+      <span class="spacer"></span>
+      <mat-icon color="warn" (click)="delete(src)">cancel</mat-icon>
+    </div>
+  </div>
+  <div class="example-list">
+    <app-todo-add (addEvent)="addSource($event)" [addText]="'Add RSS source'"></app-todo-add>
+  </div>
+</div>
+
+<div class="btn-container">
+    <button mat-raised-button color="primary" (click)="apply($event)" [disabled]="!applicable() ? 'disabled' : null">
+        Apply
+    </button>
+    <button mat-raised-button color="warn" (click)="close($event)">
+        Cancel
+    </button>
+</div>

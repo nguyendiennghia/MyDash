@@ -7,10 +7,10 @@
                 <button mat-icon-button aria-label="icon-button with favourite icon">
                     <mat-icon [inline]="true">favorite</mat-icon>
                 </button>
-                <button mat-icon-button aria-label="icon-button with heart icon" *ngIf="desc" [matTooltip]="desc" #tooltip="matTooltip">
+                <button mat-icon-button *ngIf="desc" [matTooltip]="desc" #tooltip="matTooltip">
                     <mat-icon [inline]="true">info</mat-icon>
                 </button>
-                <button mat-icon-button aria-label="icon-button with heart icon">
+                <button mat-icon-button (click)="config($event)">
                     <mat-icon [inline]="true">settings</mat-icon>
                 </button>
                 <button mat-icon-button aria-label="icon-button with delete icon">
@@ -30,7 +30,9 @@
                     <app-todos [widget]="widget" (widgetEvent)="handleWidget($event)"></app-todos>
                 </span>
                 <app-urls *ngSwitchCase="widgetTypes.Url"></app-urls>
-                <app-rss *ngSwitchCase="widgetTypes.Rss" [widget]="widget"></app-rss>
+                <app-rss *ngSwitchCase="widgetTypes.Rss" 
+                    [widget]="widget" [configEvt]="configEvent" (widgetEvent)="handleWidget($event)"
+                ></app-rss>
                 <app-schedulers *ngSwitchCase="widgetTypes.Scheduler" [widget]="widget" 
                     (widgetEvent)="handleWidget($event)">
                 </app-schedulers>

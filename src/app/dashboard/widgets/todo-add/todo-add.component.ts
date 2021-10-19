@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TodoItem, Widget } from '../widget';
 
 @Component({
@@ -10,6 +10,7 @@ export class TodoAddComponent implements OnInit {
 
   todoName: string = ''
   editing: boolean = false;
+  @Input() addText: string = 'Add description'
   @Output() addEvent: EventEmitter<TodoItem> = new EventEmitter<TodoItem>()
 
   constructor() { }

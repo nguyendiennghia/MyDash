@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Guid } from 'guid-typescript';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
 import { DashboardService } from '../../dashboard.service';
 import { TodoWidget, Widget, WidgetType } from '../widget';
 
@@ -17,6 +17,7 @@ export class WidgetContainerComponent implements OnInit {
   @Input() groupId: number | string = -1
   widgets!: Widget[]
   widgetTypes = WidgetType;
+  configEvent: EventEmitter<void> = new EventEmitter<void>()
 
   constructor(private service: DashboardService) { }
 
@@ -30,5 +31,9 @@ export class WidgetContainerComponent implements OnInit {
     //await this.service.save(this.groupId, this.widgets.splice(index, 1, widget))
     //console.log(JSON.stringify(widget))
     await this.service.save(this.groupId, this.widgets)
+  }
+
+  config(evt: any) {
+    this.configEvent.emit()
   }
 }
