@@ -18,6 +18,8 @@ export class FakeHttpInterceptor implements HttpInterceptor {
     widgetID2: number = WidgetType.Scheduler;
     widgetID3: number = WidgetType.Rss
 
+    widgetID4 = 123; widgetID5 = 456; widgetID6 = 789; // Rightmove
+
     constructor(
         private cookie: CookieService, 
         @Inject(LOCAL_STORAGE) private storage: StorageService) {}
@@ -52,13 +54,17 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         }
 
         let defaultTiles = [
-            <Tile> { color: 'orange', cols: 1, rows: 1, content: this.widgetID2, name: 'Scheduler' },
-            <Tile> { color: '#ddbdf1', cols: 3, rows: 1, content: 5, name: 'Graph' },
-            <Tile> { color: 'lightgreen', cols: 1, rows: 2, content: 2, name: 'Url' },
-            <Tile> { color: 'lightblue', cols: 3, rows: 2, content: this.widgetID1, name: 'ToDo', desc: 'TODO list items' },
-            <Tile> { color: 'lightpink', cols: 1, rows: 1, content: 0, name: 'Raw' },
-            
-            <Tile> { color: 'yellow', cols: 2, rows: 1, content: this.widgetID3, name: 'RSS - Quotes' },
+            <Tile> { color: '#cd8282', secondaryColor: '#fff', cols: 2, rows: 1, content: this.widgetID2, name: 'Scheduler' },
+            <Tile> { color: '#82a8cd', secondaryColor: '#fff', cols: 3, rows: 1, content: 5, name: 'Graph' },
+            <Tile> { color: '#82cda8', cols: 1, rows: 2, content: 2, name: 'Url' },
+            <Tile> { color: '#ffbf00', cols: 3, rows: 2, content: this.widgetID1, name: 'ToDo', desc: 'TODO list items' },
+            <Tile> { color: '#82cdcd', cols: 1, rows: 1, content: 0, name: 'Raw' },
+            <Tile> { color: '#ff9912', secondaryColor: '#fff', cols: 1, rows: 1, content: 0, name: 'Mail' },
+            <Tile> { color: '#eedd82', cols: 3, rows: 1, content: this.widgetID3, name: 'Rss' },
+
+            <Tile> { color: '#00bfff', secondaryColor: '#fff', cols: 3, rows: 1, content: this.widgetID4, name: 'Rightmove - Cannock' },
+            <Tile> { color: '#66cdaa', cols: 3, rows: 2, content: this.widgetID5, name: 'Rightmove - Nuneaton' },
+            <Tile> { color: '#cfead9', cols: 3, rows: 1, content: this.widgetID6, name: 'Rightmove - Telford' },
         ]
         if (req.method === 'GET' && req.url.includes(HTTP_URL.DefaultTiles)) {
             return of(new HttpResponse({ status: 200, body: defaultTiles }))
@@ -107,12 +113,8 @@ export class FakeHttpInterceptor implements HttpInterceptor {
 
         if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID1}`)) {
             let widgets = (<Widget[]> req.body) // Todo
-                .concat(this.getWidgets(WidgetType.Raw)).concat(this.getWidgets(WidgetType.Url))
-                .concat(this.getWidgets(WidgetType.Rss)).concat(this.getWidgets(WidgetType.Scheduler))
-                .concat(this.getWidgets(WidgetType.Graph))
-            
+                .concat(this.getWidgetsExcept(WidgetType.Todo))
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
-
             return of(new HttpResponse({ status: 200, body: widgets }))
                  .pipe(
                      delay( Math.floor(Math.random() * 3000) )
@@ -121,12 +123,8 @@ export class FakeHttpInterceptor implements HttpInterceptor {
 
         if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID2}`)) {
             let widgets = (<Widget[]> req.body) // Scheduler
-                .concat(this.getWidgets(WidgetType.Raw)).concat(this.getWidgets(WidgetType.Url))
-                .concat(this.getWidgets(WidgetType.Rss)).concat(this.getWidgets(WidgetType.Todo))
-                .concat(this.getWidgets(WidgetType.Graph))
-            
+                .concat(this.getWidgetsExcept(WidgetType.Scheduler))
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
-
             return of(new HttpResponse({ status: 200, body: widgets }))
                  .pipe(
                      delay( Math.floor(Math.random() * 3000) )
@@ -135,12 +133,8 @@ export class FakeHttpInterceptor implements HttpInterceptor {
 
         if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID3}`)) {
             let widgets = (<Widget[]> req.body) // Rss
-                .concat(this.getWidgets(WidgetType.Raw)).concat(this.getWidgets(WidgetType.Url))
-                .concat(this.getWidgets(WidgetType.Scheduler)).concat(this.getWidgets(WidgetType.Todo))
-                .concat(this.getWidgets(WidgetType.Graph))
-            
+                .concat(this.getWidgetsExcept(WidgetType.Rss))
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
-
             return of(new HttpResponse({ status: 200, body: widgets }))
                  .pipe(
                      delay( Math.floor(Math.random() * 3000) )
@@ -148,6 +142,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         }
 
         if (req.method === 'PUT' && req.url.endsWith(`${HTTP_URL.Widgets}/reset`)) {
+            this.storage.set(COOKIE_KEY.Tiles, JSON.stringify(defaultTiles))
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
             return of(new HttpResponse({ status: 200, body: defaultWidgets }))
                  .pipe(
@@ -172,13 +167,21 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         //return type == undefined ? widgets : widgets.filter(w => w.type == type)
     }
 
+    getWidgetsExcept(type: WidgetType) : Widget[] {
+        let widgets: Widget[] = []
+        for (let [ key, value ] of Object.entries(WidgetType)) {
+            let val = Number(key)
+            if (isNaN(val) || val == type) continue;
+            widgets = widgets.concat(this.getWidgets(val))
+        }
+        return widgets
+    }
+
     resetToDefault(): Widget[] {
         this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
         return defaultWidgets
     }
 }
-
-
 
 const defaultTodoWidgets: Widget[] = [
     <Widget> { 
@@ -249,21 +252,15 @@ const defaultSchedulerWidgets: Widget[] = [
         type: WidgetType.Scheduler, 
         data: JSON.stringify( [
             <SchedulerWidget> {
-                end: new Date(2021, 10, 30, 12, 30),
-                desc: 'Morning meeting',
-                mode: 'countdown',
-                display: 'time'
-            },
-            <SchedulerWidget> {
-                end: new Date(2021, 9, 30),
-                desc: 'Application!',
-                mode: 'countdown',
+                end: new Date(2022, 7, 14, 8, 30),
+                desc: 'D-Day',
+                mode: 'progress',
                 display: 'datetime'
             },
             <SchedulerWidget> {
                 end: new Date(2021, 9, 30),
                 desc: 'October Trip',
-                mode: 'progress',
+                mode: 'countdown',
                 display: 'datetime'
             }
         ]
