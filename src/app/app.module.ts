@@ -30,6 +30,7 @@ import { SchedulerAddComponent } from './dashboard/widgets/scheduler-add/schedul
 import { StorageServiceModule } from 'ngx-webstorage-service'
 import { RouterModule, ROUTES } from '@angular/router';
 import { RssConfigComponent } from './dashboard/widgets/rss-config/rss-config.component';
+import { RightMoveComponent } from './dashboard/widgets/right-move/right-move.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { RssConfigComponent } from './dashboard/widgets/rss-config/rss-config.co
     SchedulerComponent,
     SchedulerAddComponent,
     DashboardConfigComponent,
-    RssConfigComponent
+    RssConfigComponent,
+    RightMoveComponent
   ],
   imports: [
     RouterModule,

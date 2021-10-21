@@ -8,18 +8,20 @@ import { delay, finalize, tap, catchError } from 'rxjs/operators'
 import { HTTP_URL, COOKIE_KEY } from '../common/backend'
 import { User } from '../common/user';
 import { Tile } from '../dashboard/widgets/tile';
-import { RssWidget, SchedulerWidget, TodoWidget, Widget, WidgetType } from '../dashboard/widgets/widget';
+import { RightmoveWidget, RssWidget, SchedulerWidget, TodoWidget, Widget, WidgetType } from '../dashboard/widgets/widget';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service'
+
+const widgetID1: number = WidgetType.Todo
+const widgetID2: number = WidgetType.Scheduler
+const widgetID3: number = WidgetType.Rss
+ // Rightmove
+const widgetID4 = Guid.parse('f005ef4d-8491-4822-a931-adece6b63453')
+const widgetID5 = Guid.parse('27fecccc-b5db-4496-9e31-769bb641f9b5')
+const widgetID6 = Guid.parse('398bee17-7fa6-4fdd-8314-2ddb1fdc9547')
 
 @Injectable()
 export class FakeHttpInterceptor implements HttpInterceptor {
-
-    widgetID1: number = WidgetType.Todo;
-    widgetID2: number = WidgetType.Scheduler;
-    widgetID3: number = WidgetType.Rss
-
-    widgetID4 = 123; widgetID5 = 456; widgetID6 = 789; // Rightmove
-
+    
     constructor(
         private cookie: CookieService, 
         @Inject(LOCAL_STORAGE) private storage: StorageService) {}
@@ -52,19 +54,18 @@ export class FakeHttpInterceptor implements HttpInterceptor {
                     })
                 )
         }
-
         let defaultTiles = [
-            <Tile> { color: '#cd8282', secondaryColor: '#fff', cols: 2, rows: 1, content: this.widgetID2, name: 'Scheduler' },
+            <Tile> { color: '#cd8282', secondaryColor: '#fff', cols: 2, rows: 1, content: widgetID2, name: 'Scheduler' },
             <Tile> { color: '#82a8cd', secondaryColor: '#fff', cols: 3, rows: 1, content: 5, name: 'Graph' },
             <Tile> { color: '#82cda8', cols: 1, rows: 2, content: 2, name: 'Url' },
-            <Tile> { color: '#ffbf00', cols: 3, rows: 2, content: this.widgetID1, name: 'ToDo', desc: 'TODO list items' },
+            <Tile> { color: '#ffbf00', cols: 3, rows: 2, content: widgetID1, name: 'ToDo', desc: 'TODO list items' },
             <Tile> { color: '#82cdcd', cols: 1, rows: 1, content: 0, name: 'Raw' },
             <Tile> { color: '#ff9912', secondaryColor: '#fff', cols: 1, rows: 1, content: 0, name: 'Mail' },
-            <Tile> { color: '#eedd82', cols: 3, rows: 1, content: this.widgetID3, name: 'Rss' },
+            <Tile> { color: '#eedd82', cols: 3, rows: 1, content: widgetID3, name: 'Rss' },
 
-            <Tile> { color: '#00bfff', secondaryColor: '#fff', cols: 3, rows: 1, content: this.widgetID4, name: 'Rightmove - Cannock' },
-            <Tile> { color: '#66cdaa', cols: 3, rows: 2, content: this.widgetID5, name: 'Rightmove - Nuneaton' },
-            <Tile> { color: '#cfead9', cols: 3, rows: 1, content: this.widgetID6, name: 'Rightmove - Telford' },
+            <Tile> { color: '#00bfff', secondaryColor: '#fff', cols: 3, rows: 1, content: widgetID4.toString(), name: 'Rightmove - Nuneaton' },
+            <Tile> { color: '#66cdaa', cols: 3, rows: 2, content: widgetID5.toString(), name: 'Rightmove - Tamworth' },
+            <Tile> { color: '#cfead9', cols: 3, rows: 1, content: widgetID6.toString(), name: 'Rightmove - Cannock' },
         ]
         if (req.method === 'GET' && req.url.includes(HTTP_URL.DefaultTiles)) {
             return of(new HttpResponse({ status: 200, body: defaultTiles }))
@@ -92,17 +93,23 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         if (req.method === 'GET' && req.url.includes(HTTP_URL.Widgets)) {
             let widgets: Widget[] = []
 
-            if (req.url.endsWith(`/${this.widgetID1}`)) widgets = this.getWidgets(WidgetType.Todo)
+            if (req.url.endsWith(`/${widgetID1}`)) widgets = this.getWidgetsOf(WidgetType.Todo)
             
-            else if (req.url.endsWith(`/${WidgetType.Raw}`)) widgets = this.getWidgets(WidgetType.Raw)
+            else if (req.url.endsWith(`/${WidgetType.Raw}`)) widgets = this.getWidgetsOf(WidgetType.Raw)
 
-            else if (req.url.endsWith(`/${WidgetType.Url}`)) widgets = this.getWidgets(WidgetType.Url)
+            else if (req.url.endsWith(`/${WidgetType.Url}`)) widgets = this.getWidgetsOf(WidgetType.Url)
 
-            else if (req.url.endsWith(`/${this.widgetID3}`)) { widgets = this.getWidgets(WidgetType.Rss)}
+            else if (req.url.endsWith(`/${widgetID3}`)) { widgets = this.getWidgetsOf(WidgetType.Rss)}
 
-            else if (req.url.endsWith(`/${WidgetType.Scheduler}`)) widgets = this.getWidgets(WidgetType.Scheduler)
+            else if (req.url.endsWith(`/${WidgetType.Scheduler}`)) widgets = this.getWidgetsOf(WidgetType.Scheduler)
 
-            else if (req.url.endsWith(`/${WidgetType.Graph}`)) widgets = this.getWidgets(WidgetType.Graph)
+            else if (req.url.endsWith(`/${WidgetType.Graph}`)) widgets = this.getWidgetsOf(WidgetType.Graph)
+
+            //else if ([widgetID6, widgetID5, widgetID4].some(rm => req.url.endsWith(`/${rm}`))) {
+            else if ( new RegExp('\/([a-z0-9-]+)$').test(req.url) ) {
+                let guid = Guid.parse(req.url.match( /([a-z0-9-]+)$/g )![0])
+                widgets = this.getWidgets(guid)
+            }
 
             return of(new HttpResponse({ status: 200, body: widgets }))
                 .pipe(
@@ -111,7 +118,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
                 )
         }
 
-        if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID1}`)) {
+        if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${widgetID1}`)) {
             let widgets = (<Widget[]> req.body) // Todo
                 .concat(this.getWidgetsExcept(WidgetType.Todo))
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
@@ -121,7 +128,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
                  )
         }
 
-        if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID2}`)) {
+        if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${widgetID2}`)) {
             let widgets = (<Widget[]> req.body) // Scheduler
                 .concat(this.getWidgetsExcept(WidgetType.Scheduler))
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
@@ -131,7 +138,7 @@ export class FakeHttpInterceptor implements HttpInterceptor {
                  )
         }
 
-        if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${this.widgetID3}`)) {
+        if (req.method === 'PUT' && req.url.includes(HTTP_URL.Widgets) && req.url.endsWith(`/${widgetID3}`)) {
             let widgets = (<Widget[]> req.body) // Rss
                 .concat(this.getWidgetsExcept(WidgetType.Rss))
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(widgets))
@@ -153,18 +160,19 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         return next.handle(req)
     }
 
-    getWidgets(type?: WidgetType): Widget[] {
-
+    getAllWidgets(): Widget[] {
         let data = this.storage.get(COOKIE_KEY.Widgets)
-        let widgets: Widget[]
         if (!data) {
             this.storage.set(COOKIE_KEY.Widgets, JSON.stringify(defaultWidgets))
-            widgets = defaultWidgets
+            return defaultWidgets
         }
-        else widgets = <Widget[]> JSON.parse(data)
+        else return <Widget[]> JSON.parse(data)
+    } 
+
+    getWidgetsOf(type?: WidgetType): Widget[] {
+        let widgets = this.getAllWidgets()
         if (type == undefined) return widgets
         return widgets.filter(w => w.type == type)
-        //return type == undefined ? widgets : widgets.filter(w => w.type == type)
     }
 
     getWidgetsExcept(type: WidgetType) : Widget[] {
@@ -172,9 +180,15 @@ export class FakeHttpInterceptor implements HttpInterceptor {
         for (let [ key, value ] of Object.entries(WidgetType)) {
             let val = Number(key)
             if (isNaN(val) || val == type) continue;
-            widgets = widgets.concat(this.getWidgets(val))
+            widgets = widgets.concat(this.getWidgetsOf(val))
         }
         return widgets
+    }
+
+    getWidgets(id: Guid): Widget[] {
+        let widgets = this.getAllWidgets()
+
+        return widgets.filter(w => w.id && w.id == id.toString())
     }
 
     resetToDefault(): Widget[] {
@@ -283,6 +297,37 @@ const defaultGraphWidgets: Widget[] = [
         </svg>` }
 ]
 
+const defaultRightmoveWidgets: Widget[] = [
+    <Widget> {
+        id: widgetID6.toString(),
+        type: WidgetType.Rightmove,
+        data: JSON.stringify( [
+            <RightmoveWidget> {
+                loc: '277' // Cannock
+            }
+        ] )
+    },
+    <Widget> {
+        id: widgetID5.toString(),
+        type: WidgetType.Rightmove,
+        data: JSON.stringify( [
+            <RightmoveWidget> {
+                loc: '1314' // Tamworth
+            }
+        ] )
+    },
+    <Widget> {
+        id: widgetID4.toString(),
+        type: WidgetType.Rightmove,
+        data: JSON.stringify( [
+            <RightmoveWidget> {
+                loc: '1020' // Nuneaton
+            }
+        ] )
+    }
+]
+
 const defaultWidgets: Widget[] = defaultTodoWidgets
     .concat(defaultRawWidgets).concat(defaultUrlWidgets).concat(defaultRssWidgets)
     .concat(defaultSchedulerWidgets).concat(defaultGraphWidgets)
+    .concat(defaultRightmoveWidgets)

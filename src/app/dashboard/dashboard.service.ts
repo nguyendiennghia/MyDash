@@ -33,6 +33,7 @@ export class DashboardService {
       case WidgetType.Rss:
       case WidgetType.Todo:
       case WidgetType.Scheduler:
+      case WidgetType.Rightmove:
         return of(<TWidget[]> JSON.parse(widget.data.replace('\n', '').replace('\r', '')))
         .toPromise()
 

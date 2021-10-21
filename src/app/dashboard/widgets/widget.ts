@@ -15,7 +15,7 @@ export enum WidgetType {
 export class Widget {
     type!: WidgetType
     data!: string
-    id!: Guid
+    id!: string
 }
 
 export class TodoItem {
@@ -70,11 +70,11 @@ export class RssItem {
 
 export class RightmoveWidget extends Widget {
     loc!: string
-    maxPrice: number = 200000
+    maxPrice: number = 220000
     minPrice: number = 0
-    maxDayAdded: number = 7
-    minBedrooms = 0
-    maxBedrooms = 3
+    maxDayAdded: number = 3
+    minBedrooms = 3
+    maxBedrooms = 0
     radius = 5 // miles
     showRecords!: number
 }

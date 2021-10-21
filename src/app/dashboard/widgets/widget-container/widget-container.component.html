@@ -37,6 +37,7 @@
                     (widgetEvent)="handleWidget($event)">
                 </app-schedulers>
                 <app-graphs *ngSwitchCase="widgetTypes.Graph"></app-graphs>
+                <app-right-move *ngSwitchCase="widgetTypes.Rightmove" [widget]="widget"></app-right-move>
                 <div *ngSwitchDefault [innerHTML]="widget.data"></div>
             </span>
         </div>

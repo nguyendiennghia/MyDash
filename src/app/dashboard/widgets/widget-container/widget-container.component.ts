@@ -23,8 +23,15 @@ export class WidgetContainerComponent implements OnInit {
   constructor(private service: DashboardService) { }
 
   ngOnInit(): void {
+
     (async () => await this.service.getWidgets(this.groupId)
-      .then(widgets => this.widgets = widgets)
+      //.then(widgets => this.widgets = widgets)
+
+      // TEST
+      .then(widgets => {
+        this.widgets = widgets
+      })
+
     )()
   }
 
