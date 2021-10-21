@@ -12,6 +12,7 @@ import { TodoWidget, Widget, WidgetType } from '../widget';
 export class WidgetContainerComponent implements OnInit {
 
   @Input() color = ''
+  @Input() secondaryColor = ''
   @Input() name = ''
   @Input() desc = ''
   @Input() groupId: number | string = -1

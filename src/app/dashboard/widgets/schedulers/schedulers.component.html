@@ -1,25 +1,8 @@
-<!-- <mat-grid-list cols="1" rowHeight="3.5:1">
-    <mat-grid-tile *ngFor="let scheduler of schedulers">
-        <mat-card>
-            <mat-card-content>
-                <div flex fxLayout="row">
-                    <div fxFlex="50">{{ scheduler.desc }}</div>
-                    <div fxFlex="50">{{ scheduler.end }}</div>
-                    <div fxFlex="15">{{ scheduler.mode }}</div>
-                    <div fxFlex="35">{{ scheduler.display }}</div>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </mat-grid-tile>
-</mat-grid-list> -->
-
-<!-- <div *ngFor="let scheduler of schedulers" flex fxLayout="row"> -->
-    <!-- <div fxFlex="50">{{ scheduler.desc }}</div>
-    <div fxFlex="50">{{ scheduler.end }}</div> -->
-<app-scheduler *ngFor="let scheduler of schedulers" 
-    [scheduler]="scheduler" 
-    (deleteEvent)="delete($event)"
-    (dblclick)="edit(scheduler)">
-</app-scheduler>
-<app-scheduler-add (addEvent)="submit($event)" #editComponent></app-scheduler-add>
-<!-- </div> -->
+<div *ngIf="!editMode">
+    <app-scheduler *ngFor="let scheduler of schedulers" 
+        [scheduler]="scheduler" 
+        (deleteEvent)="delete($event)"
+        (dblclick)="edit(scheduler)">
+    </app-scheduler>
+</div>
+<app-scheduler-add (addEvent)="submit($event)" (toggleEvent)="toggleEvent($event)" #editComponent></app-scheduler-add>

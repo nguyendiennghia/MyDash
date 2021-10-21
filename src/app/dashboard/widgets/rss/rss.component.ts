@@ -16,7 +16,7 @@ export class RssComponent implements OnInit {
   customOptions: OwlOptions = {
     autoHeight: true,
     loop: true,
-    items: 2,
+    items: 4,
     margin: 15,
      slideBy: 'page',
     autoplay: true,

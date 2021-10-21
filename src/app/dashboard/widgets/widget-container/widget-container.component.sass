@@ -1,3 +1,5 @@
+$height: 30px
+
 app-widget-container
     width: 100%
     height: 100%
@@ -22,11 +24,11 @@ mat-card
 mat-card-content
     height: 100%
     > :not(mat-toolbar)
-        padding: 16px
+        padding: 8px
     & mat-toolbar
-        min-height: 44px
+        min-height: 34px
         & mat-toolbar-row
-            height: 44px
+            height: 34px
 
 .loading
     display: flex
@@ -37,3 +39,6 @@ mat-card-content
 
 mat-toolbar
     filter: brightness(0.85)
+
+.mat-icon-button
+    line-height: 30px

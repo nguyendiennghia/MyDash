@@ -16,8 +16,8 @@
     </mat-toolbar-row>
 </mat-toolbar>
 <p></p>
-<mat-grid-list cols="5" rowHeight="1:1">
+<mat-grid-list cols="6" rowHeight="1:1">
     <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
-        <app-widget-container [color]="tile.color" [name]="tile.name" [desc]="tile.desc" [groupId]="tile.content"></app-widget-container>
+        <app-widget-container [color]="tile.color" [secondaryColor]="tile.secondaryColor" [name]="tile.name" [desc]="tile.desc" [groupId]="tile.content"></app-widget-container>
     </mat-grid-tile>
 </mat-grid-list>

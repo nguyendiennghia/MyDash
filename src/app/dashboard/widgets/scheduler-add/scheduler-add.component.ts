@@ -21,22 +21,27 @@ export class SchedulerAddComponent implements OnInit {
     this.editing = true
     this.desc = value.desc
     let date = new Date(value.end)
-    if (value.reoccurance == SchedulerReoccuranceType.Unset) {
-      this.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16)
-      this.occurance = false
-    }
-    else {
+    if (value.reoccurance == SchedulerReoccuranceType.Daily) {
       this.time = `${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
       this.occurance = true
+    }
+    else {
+      this.date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16)
+      this.occurance = false
     }
   }
   get scheduler() { return this._scheduler }
 
   @Output() addEvent: EventEmitter<SchedulerWidget> = new EventEmitter<SchedulerWidget>()
+  @Output() toggleEvent: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   constructor() { }
 
   ngOnInit(): void {
+    if (!this.scheduler) {
+      let current = new Date()
+      !this.occurance ? (this.date = current.toISOString().slice(0, 16)) : (this.time = `${('0' + current.getHours()).slice(-2)}:${('0' + current.getMinutes()).slice(-2)}`)
+    }
   }
 
   toggle(): void {
@@ -46,6 +51,7 @@ export class SchedulerAddComponent implements OnInit {
       this.date = ''
       this.time = ''
     }
+    this.toggleEvent.emit(this.editing)
   }
 
   async add() {
@@ -57,6 +63,7 @@ export class SchedulerAddComponent implements OnInit {
   }
 
   private modify(updating: boolean = true) {
+    debugger
     let date: Date
     let withDate: boolean = false
     let reoccuranceMode = SchedulerReoccuranceType.Unset

@@ -8,7 +8,9 @@ export enum WidgetType {
     Url,
     Rss,
     Scheduler,
-    Graph
+    Graph,
+    Rightmove,
+    HtmlQuote
 }
 export class Widget {
     type!: WidgetType
@@ -39,7 +41,7 @@ export class SchedulerWidget extends Widget {
     end!: Date
     desc!: string
     mode: string = 'countdown' // or progress
-    display: string = 'time' // or datetime
+    display: string = 'datetime' // or datetime
     reoccurance: SchedulerReoccuranceType = SchedulerReoccuranceType.Unset
 }
 
@@ -66,3 +68,13 @@ export class RssItem {
     image!: string
 }
 
+export class RightmoveWidget extends Widget {
+    loc!: string
+    maxPrice: number = 200000
+    minPrice: number = 0
+    maxDayAdded: number = 7
+    minBedrooms = 0
+    maxBedrooms = 3
+    radius = 5 // miles
+    showRecords!: number
+}

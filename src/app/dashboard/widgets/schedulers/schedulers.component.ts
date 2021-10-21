@@ -15,6 +15,7 @@ export class SchedulersComponent implements OnInit, OnChanges {
   @Output() widgetEvent: EventEmitter<Widget> = new EventEmitter<Widget>()
   @ViewChild(SchedulerAddComponent, {static:false}) editComponent!: SchedulerAddComponent
   schedulers: SchedulerWidget[] = []
+  editMode: boolean = false
 
   constructor(private service: DashboardService) { }
 
@@ -34,6 +35,7 @@ export class SchedulersComponent implements OnInit, OnChanges {
   }
 
   async submit(scheduler: SchedulerWidget) {
+    this.editMode = false
     if (!this.schedulers.includes(scheduler))
       this.schedulers.push(scheduler)
 
@@ -42,6 +44,11 @@ export class SchedulersComponent implements OnInit, OnChanges {
   }
 
   edit(selected: SchedulerWidget) {
+    this.editMode = true
     this.editComponent.scheduler = selected
+  }
+
+  toggleEvent(editting: boolean) {
+    this.editMode = editting
   }
 }

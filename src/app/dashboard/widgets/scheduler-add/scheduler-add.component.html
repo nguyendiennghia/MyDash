@@ -4,7 +4,7 @@
             <mat-icon>add</mat-icon>
         </button>
     </div>
-    <div fxFlex="72" *ngIf="editing">
+    <div *ngIf="editing">
         <div flex fxLayout="row">
             <div fxFlex="70">
                 <mat-form-field appearance="fill">
@@ -12,9 +12,8 @@
                     <input matInput [(ngModel)]="desc">
                 </mat-form-field>
             </div>
-            <div fxFlex="30">
-                <mat-slide-toggle [(ngModel)]="occurance" matTooltip="Daily re-occurance">
-                </mat-slide-toggle>
+            <div fxFlex="40">
+                <mat-slide-toggle [(ngModel)]="occurance" matTooltip="Daily re-occurance"></mat-slide-toggle>
             </div>
         </div>
         <mat-form-field appearance="fill" *ngIf="!occurance">
@@ -24,8 +23,8 @@
         </mat-form-field>
         <ngx-timepicker-field [format]="24" *ngIf="occurance" [(ngModel)]="time"></ngx-timepicker-field>
     </div>
-    <div fxFlex="28" *ngIf="editing">
-        <div flex fxLayout="column">
+    <div *ngIf="editing">
+        <div >
             <button *ngIf="!scheduler" mat-raised-button color="primary" (click)="add()" 
                 [disabled]="!desc || (!date && !occurance) || (!time && occurance)">
                 Add
@@ -38,3 +37,16 @@
         </div>
     </div>
 </div>
+<!-- <div *ngIf="editing">
+    <div flex fxLayout="column">
+        <button *ngIf="!scheduler" mat-raised-button color="primary" (click)="add()" 
+            [disabled]="!desc || (!date && !occurance) || (!time && occurance)">
+            Add
+        </button>
+        <button *ngIf="scheduler" mat-raised-button color="primary" (click)="edit()" 
+        [disabled]="!desc || (!date && !occurance) || (!time && occurance)">
+            Edit
+        </button>
+        <button mat-raised-button color="warn" (click)="toggle()">Cancel</button>
+    </div>
+</div> -->
