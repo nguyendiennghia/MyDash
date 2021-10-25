@@ -29,8 +29,19 @@ export class RightMoveComponent implements OnInit, OnChanges {
     const salt = (new Date()).getTime()
 
     this.items.forEach(item => {
-      let src = `https://api.rightmove.co.uk/api/sale/find?&apiApplication=IPAD&retirement=false&displayPropertyType=houses&newHome=false&partBuyPartRent=false&sortType=6&locationIdentifier=REGION%5E${item.loc}&maxPrice=${item.maxPrice}&minPrice=${item.minPrice}&maxDaysSinceAdded=${item.maxDayAdded}&minBedrooms=${item.minBedrooms}&maxBedrooms=${item.maxBedrooms}&radius=${item.radius}&numberOfPropertiesRequested=${item.showRecords ? item.showRecords: 0}`
-      if (item.showRecords)
+      item = new RightmoveWidget(item)
+      // let src = `https://api.rightmove.co.uk/api/sale/find?&apiApplication=IPAD&sortType=6&dontShow=retirement%2CnewHome%2CsharedOwnership&includeSSTC=false&propertyTypes=terraced%2Csemi-detached%2Cdetached&mustHave=` + 
+      // `&locationIdentifier=REGION%5E${item.loc}` + 
+      // `&minBedrooms=3&maxBedrooms=10` + 
+      // `&minPrice=0&maxPrice=220000` + 
+      // `&radius=5` + 
+      // `&maxDaysSinceAdded=7`
+      let src = `https://api.rightmove.co.uk/api/sale/find?&apiApplication=IPAD&sortType=6&dontShow=sharedOwnership%2CnewHome%2Cretirement&includeSSTC=false&propertyTypes=terraced%2Csemi-detached%2Cdetached&mustHave=` + 
+      `&locationIdentifier=REGION%5E${item.loc}` + 
+      `&minBedrooms=${item.minBedrooms}&maxBedrooms=${item.maxBedrooms}` + 
+      `&minPrice=${item.minPrice}&maxPrice=${item.maxPrice}` + 
+      `&radius=${item.radius}` + 
+      `&maxDaysSinceAdded=${item.maxDayAdded}`
       console.log(src)
       let url = `https://api.allorigins.win/get?&salt=${salt}&url=${encodeURIComponent(src)}`
       this.http.get<any>(url, requestOptions)

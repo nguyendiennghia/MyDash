@@ -59,8 +59,8 @@ export class FakeHttpInterceptor implements HttpInterceptor {
             <Tile> { color: '#82a8cd', secondaryColor: '#fff', cols: 3, rows: 1, content: 5, name: 'Graph' },
             <Tile> { color: '#82cda8', cols: 1, rows: 2, content: 2, name: 'Url' },
             <Tile> { color: '#ffbf00', cols: 3, rows: 2, content: widgetID1, name: 'ToDo', desc: 'TODO list items' },
-            <Tile> { color: '#82cdcd', cols: 1, rows: 1, content: 0, name: 'Raw' },
-            <Tile> { color: '#ff9912', secondaryColor: '#fff', cols: 1, rows: 1, content: 0, name: 'Mail' },
+            <Tile> { color: '#82cdcd', cols: 2, rows: 1, content: 0, name: 'Nursery Notice' },
+            // <Tile> { color: '#ff9912', secondaryColor: '#fff', cols: 1, rows: 1, content: 0, name: 'Mail' },
             <Tile> { color: '#eedd82', cols: 3, rows: 1, content: widgetID3, name: 'Rss' },
 
             <Tile> { color: '#00bfff', secondaryColor: '#fff', cols: 3, rows: 1, content: widgetID4.toString(), name: 'Rightmove - Nuneaton' },
@@ -221,9 +221,9 @@ const defaultTodoWidgets: Widget[] = [
 ] 
 
 const defaultRawWidgets: Widget[] = [
-    <Widget> { type: WidgetType.Raw, data: '<h3>Past:</h3><a href="http://xyz.com">XYZ</a>' },
-    <Widget> { type: WidgetType.Raw, data: '<h2>Current:</h2><a href="http://abc.xyz">ABC</a>' },
-    <Widget> { type: WidgetType.Raw, data: '<h1>Future</h1>:<a href="https://hub.pot">Hub</a>'}
+    <Widget> { type: WidgetType.Raw, data: '<article id="article14" class="ieoneColWidth dailymessage" style="background:#eee;  border-bottom-color: transparent; border-left-color:transparent; border-right-color:transparent; position:relative; height:auto;"><p class="\&quot;textcontent\&quot;">Nursery closed for half term holiday - sessions resume 1st November 2021</p></article>' },
+    // <Widget> { type: WidgetType.Raw, data: '<h2>Current:</h2><a href="http://abc.xyz">ABC</a>' },
+    // <Widget> { type: WidgetType.Raw, data: '<h1>Future</h1>:<a href="https://hub.pot">Hub</a>'}
 ]
 
 const defaultUrlWidgets: Widget[] = [

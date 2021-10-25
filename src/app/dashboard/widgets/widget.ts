@@ -74,7 +74,12 @@ export class RightmoveWidget extends Widget {
     minPrice: number = 0
     maxDayAdded: number = 3
     minBedrooms = 3
-    maxBedrooms = 0
+    maxBedrooms = 10
     radius = 5 // miles
     showRecords!: number
+
+    public constructor(init?: Partial<RightmoveWidget>) {
+        super()
+        Object.assign(this, init)
+    }
 }

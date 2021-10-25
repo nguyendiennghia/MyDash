@@ -1,12 +1,22 @@
 <div fxLayout="row wrap">
-    <div fxFlex="25%" *ngFor="let prop of properties">
-        <mat-card [style.background]="'url(' + prop.photoThumbnailUrl + ') no-repeat'">
-            <mat-card-subtitle>{{ prop.address }}</mat-card-subtitle>
-            <mat-card-title>{{ prop.displayPrices[0].displayPrice }}</mat-card-title>
-            <mat-card-content>
-                <p>Sort of desc..</p>
-            </mat-card-content>
-        </mat-card>
+    <div fxFlex="25%" *ngFor="let prop of properties" >
+        <a href="{{'https://www.rightmove.co.uk/properties/' + prop.identifier}}" target="_blank">
+            <mat-card [style.background]="'url(' + prop.photoThumbnailUrl + ') no-repeat'">
+                <mat-card-subtitle>{{ prop.address }}</mat-card-subtitle>
+                <mat-card-title>{{ prop.displayPrices[0].displayPrice }}</mat-card-title>
+                <mat-card-content>
+                    <p>Sort of desc..</p>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- <mat-card [style.background]="'url(' + prop.photoThumbnailUrl + ') no-repeat'">
+                <mat-card-subtitle>{{ prop.address }}</mat-card-subtitle>
+                <mat-card-title>{{ prop.displayPrices[0].displayPrice }}</mat-card-title>
+                <mat-card-content>
+                    <p>Sort of desc..</p>
+                </mat-card-content>
+            </mat-card> -->
+        </a>
     </div>
 </div>
 
