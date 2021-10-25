@@ -47,6 +47,7 @@ export class RightMoveComponent implements OnInit, OnChanges {
       this.http.get<any>(url, requestOptions)
       .subscribe(data => {
         let resp: IRightMoveResp = JSON.parse(JSON.parse(data).contents)
+        resp.properties = resp.properties.filter(prop => !prop.displayPrices.some(pr => pr.displayPriceQualifier == 'Shared ownership'))
         this.properties = this.properties.concat(resp.properties)
       })
     })
